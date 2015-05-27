@@ -18,3 +18,5 @@ addfiles
 *.aux
 *.log
 *.out
+#ignore pdf's to avoid git errors
+*.pdf
