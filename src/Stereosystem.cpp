@@ -298,12 +298,13 @@ bool Stereosystem::initRectification()
     cv::initUndistortRectifyMap(mIntrinsicRight, mDistCoeffsRight, mR1, mP1,
                                 imagesizeL, CV_32FC1, mMap1[1], mMap2[1]);
 
-    // just get the image conained by both ROIs
+
+    // just get the image contained by both ROIs
     mDisplayROI = mValidROI[0] & mValidROI[1];
-    std::cout<<"SYSTEM: "<<mQ<<std::endl;
-    std::cout << "ROI 1: " << mValidROI[0] << std::endl;
-    std::cout << "ROI 2: " << mValidROI[1] << std::endl;
-    std::cout << mDisplayROI << std::endl;
+
+    LOG(INFO) << mTag << "Q Matrix: " << mQ << std::endl;
+    LOG(INFO) << mTag << "ROI 1: " << mValidROI[0] << " | ROI 2: " << mValidROI[1] << std::endl;
+    LOG(INFO) << mTag << "Current Display ROI: " << mDisplayROI << std::endl;
 
     LOG(INFO) << mTag << "Rectification successfully initialized! "<< mDisplayROI <<std::endl;
     mIsInit = true;
