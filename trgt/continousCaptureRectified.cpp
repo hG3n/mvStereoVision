@@ -35,12 +35,10 @@ int main(int argc, char* argv[])
 
   cv::FileStorage fs;
 
-
   if(!Utility::checkConfig(config,nodes,fs))
   {
     return 0;
   }
-
 
   std::string inputParameter;
   fs["inputParameter"] >> inputParameter;
@@ -55,8 +53,8 @@ int main(int argc, char* argv[])
 
   Stereopair s;
 
-  left->setExposure(24000);
-  right->setExposure(24000);
+  left->setExposureMode(1);
+  right->setExposureMode(1);
 
   std::string pathLeft = outputDirectory+"/left";
   std::string pathRight = outputDirectory+"/right";
