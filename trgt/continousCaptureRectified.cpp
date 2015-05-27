@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 {
   std::string tag = "MAIN\t";
 
-  LOG(INFO) << tag << "Application started.";
+  LOG(INFO) << tag << "Application started." << std::endl;
   mvIMPACT::acquire::DeviceManager devMgr;
 
   Camera *left;
@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
 
   if(!Utility::initCameras(devMgr,left,right))
     return 0;
-
 
   Stereosystem stereo(left,right);
 
@@ -118,15 +117,19 @@ int main(int argc, char* argv[])
       std::string prefix = "";
       if(imageNumber < 10)
       {
-        prefix +="000";
+        prefix += "0000";
       }
-      else if ((imageNumber >=10) && (imageNumber <100))
+      else if ((imageNumber >=10) && (imageNumber < 100))
+      {
+        prefix += "000";
+      }
+      else if((imageNumber >= 100) && (imageNumber < 1000))
       {
         prefix += "00";
       }
-      else if(imageNumber >= 100)
+      else if(imageNumber >= 1000)
       {
-        prefix +="0";
+        prefix += "0";
       }
       cv::imwrite(std::string(pathLeft+"/left_"+prefix+std::to_string(imageNumber)+".jpg"),s.mLeft);
       cv::imwrite(std::string(pathRight+"/right_"+prefix+std::to_string(imageNumber)+".jpg"),s.mRight);
