@@ -1,6 +1,5 @@
 %YAML:1.0
 
-
 inputImages: ./images/newCalibration
 outputImages: ./images/newCalibration
 
@@ -9,4 +8,4 @@ capturedImagesRectified: ./images/new
 capturedDisparities: ./images/disparityMaps
 
 outputParameter: ./newCalibration
-inputParameter: ./newCalibration
+inputParameter: ./parameters
