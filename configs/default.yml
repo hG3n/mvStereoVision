@@ -4,7 +4,7 @@
 inputImages: ./images/newCalibration
 outputImages: ./images/newCalibration
 
-capturedImagesRectified: ./images/moritz_r
+capturedImagesRectified: ./images/new
 
 capturedDisparities: ./images/disparityMaps
 
