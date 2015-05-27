@@ -84,7 +84,6 @@ void mouseClick(int event, int x, int y,int flags, void* userdata)
 {
   if  ( event == CV_EVENT_LBUTTONDOWN )
   {
-    std::cout << "x: " << x <<"  y: " << y << std::endl;
     double d = static_cast<float>(dMapRaw.at<short>(y,x));
     float distance = Utility::calcDistance(Q_32F, d, 1);
     std::cout << "disparityValue: " << d << "  distance: " << distance << std::endl;
@@ -118,11 +117,11 @@ int main(int argc, char* argv[])
 
   Stereosystem stereo(left,right);
 
-  if(!stereo.loadIntrinsic("newCalibration/intrinsic.yml"))
+  if(!stereo.loadIntrinsic("parameters/intrinsic.yml"))
   {
     return 0;
   }
-  if(!stereo.loadExtrinisic("newCalibration/extrinsic.yml"))
+  if(!stereo.loadExtrinisic("parameters/extrinsic.yml"))
   {
     return 0;
   }
