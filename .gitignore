@@ -15,3 +15,6 @@ trgt_obj/
 addfiles
 #docu
 docu/
+#sumlime project files
+*.sublime-project
+*.sublime-workspace
