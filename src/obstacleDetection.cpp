@@ -69,6 +69,12 @@ std::vector<Subimage> obstacleDetection::getSubimages() const
 }
 
 
+void obstacleDetection::update(cv::Mat const& disparityMap, int)
+{
+  mDispMap = disparityMap;
+  
+}
+
 void obstacleDetection::buildMeanMap(cv::Mat const& Q)
 {
   unsigned int numSubimages = mSubimages.size();
