@@ -75,6 +75,7 @@ int main(int argc, char const *argv[])
   }
 
   double stereoRMS = stereo.calibrate(imagesLeft, imagesRight,20, cv::Size(11,8));
+  // double stereoRMS = stereo.calibrate(imagesLeft, imagesRight,20, cv::Size(5,7));
 
   std::cout << "RMS after stereorectification: " <<  stereoRMS << std::endl;
 

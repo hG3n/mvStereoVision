@@ -25,15 +25,11 @@ int windSizeSGBM = 5;
 
 int numDispBM = 16;
 
-
 double baseline ;
-double fx ;
-double fy ;
-double cx ;
-double cy ;
+double fx, fy, cx, cy;
 
 cv::Mat R, R_32F;
-	cv::Mat disparityMap_32FC1;
+cv::Mat disparityMap_32FC1;
 
 void disparityCalc(Stereopair const& s, cv::StereoSGBM &disparity)
 {

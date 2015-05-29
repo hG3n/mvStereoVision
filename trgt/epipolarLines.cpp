@@ -105,9 +105,9 @@ int main(int argc, char* argv[])
 	Stereosystem stereo(left,right);
 
 
-	if(!stereo.loadIntrinsic("parameter/intrinsic.yml"))
+	if(!stereo.loadIntrinsic("parameters/intrinsic.yml"))
 		return 0;
-	if(!stereo.loadExtrinisic("parameter/extrinsic.yml"))
+	if(!stereo.loadExtrinisic("parameters/extrinsic.yml"))
 		return 0;
 
 	Stereopair s;
@@ -123,7 +123,6 @@ int main(int argc, char* argv[])
 	if(Utility::directoryExist(pathLeft) && Utility::directoryExist(pathRight))
 	{
 			LOG(INFO) << tag << "Successfully created directories for captured images." << std::endl; 
-
 	}
 	else
 	{

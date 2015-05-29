@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 {
   std::string tag = "MAIN\t";
 
-  LOG(INFO) << tag << "Application started.";
+  LOG(INFO) << tag << "Application started." << std::endl;
   mvIMPACT::acquire::DeviceManager devMgr;
 
   Camera *left;
@@ -144,6 +144,9 @@ int main(int argc, char* argv[])
   disparitySGBM = cv::StereoSGBM(0,numDispSGBM,windSizeSGBM,8*windSizeSGBM*windSizeSGBM,32*windSizeSGBM*windSizeSGBM);
   std::thread disparity(disparityCalc,std::ref(s),std::ref(disparitySGBM));
 
+  cv::Mat disparityZero = cv::Mat()
+  obstacleDetection obst(dMapRaw, binning);
+
   running = true;
   int frame = 0;
   while(running)
@@ -158,13 +161,12 @@ int main(int argc, char* argv[])
 
     if(newDisparityMap)
     {
-      obstacleDetection obst(dMapRaw, binning);
-      //obst.buildMeanDistanceMap(Q_32F);
-      //obst.buildMinDistanceMap(Q_32F);
-      obst.buildStdDevDistanceMap(Q_32F);
-      // v = obst.getDistanceMapMean();
+      obst.buildMeanDistanceMap(Q_32F);
+      // obst.buildMinDistanceMap(Q_32F);
+      // obst.buildStdDevDistanceMap(Q_32F);
+      v = obst.getDistanceMapMean();
       // v = obst.getDistanceMapMin();
-      v = obst.getDistanceMapStdDev();
+      // v = obst.getDistanceMapStdDev();
       if (binning == 0)
       {
         obst.detectObstacles(MEAN_DISTANCE, std::make_pair(1.2,2.0));
