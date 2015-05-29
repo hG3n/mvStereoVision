@@ -30,6 +30,8 @@ class obstacleDetection
     std::vector<std::vector<float>> getDistanceMapStdDev() const;
     std::vector<Subimage> getSubimages() const;
 
+    void update(cv::Mat const&, int);
+
     void buildMeanMap(cv::Mat const&);
 
     void buildMeanDistanceMap(cv::Mat const&);
