@@ -216,9 +216,11 @@ bool Stereosystem::saveIntrinsic(std::string const& file)
   if(success)
   {
     fs << "cameraMatrixLeft" << mIntrinsicLeft;
-      fs << "cameraMatrixRight" << mIntrinsicRight;
-      fs << "distCoeffsLeft" << mDistCoeffsLeft;
-      fs << "distCoeffsRight" << mDistCoeffsRight;
+    fs << "cameraMatrixRight" << mIntrinsicRight;
+    fs << "distCoeffsLeft" << mDistCoeffsLeft;
+    fs << "distCoeffsRight" << mDistCoeffsRight;
+    fs << "newCameraMatrixLeft" << mP0;
+    fs << "newCameraMatrixRight" << mP1;
 
     // if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsLeft"].empty() || fs["distCoeffsRight"].empty())
    //   {
