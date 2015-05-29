@@ -7,5 +7,5 @@ capturedImagesRectified: ./images/new
 
 capturedDisparities: ./images/disparityMaps
 
-outputParameter: ./newParameters
-inputParameter: ./images/calibration_new_small_obj
+outputParameter: ./calibration_new_small_obj
+inputParameter: ./calibration_new_small_obj
