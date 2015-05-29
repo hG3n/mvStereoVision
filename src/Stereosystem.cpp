@@ -219,8 +219,6 @@ bool Stereosystem::saveIntrinsic(std::string const& file)
     fs << "cameraMatrixRight" << mIntrinsicRight;
     fs << "distCoeffsLeft" << mDistCoeffsLeft;
     fs << "distCoeffsRight" << mDistCoeffsRight;
-    fs << "newCameraMatrixLeft" << mP0;
-    fs << "newCameraMatrixRight" << mP1;
 
     // if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsLeft"].empty() || fs["distCoeffsRight"].empty())
    //   {
@@ -391,4 +389,13 @@ bool Stereosystem::getRectifiedImagepair(Stereopair& sip)
 cv::Mat Stereosystem::getQMatrix() const
 {
   return mQ;
+}
+
+// function to return 'after rectification camera matrices' P0/P1
+std::vector<cv::Mat> Stereosystem::getNewCameraMatrices() const
+{
+  std::vector<cv::Mat> v;
+  v.push_back(mP0);
+  v.push_back(mP1);
+  return v;
 }

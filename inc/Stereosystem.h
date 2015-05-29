@@ -42,6 +42,8 @@ class Stereosystem
 		cv::Mat getRotationMatrix() const;
 		cv::Mat getQMatrix() const;
 
+		std::vector<cv::Mat> getNewCameraMatrices() const;
+
 	private:
 		Camera 			*mLeft;
 		Camera 			*mRight;
