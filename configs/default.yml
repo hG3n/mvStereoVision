@@ -1,11 +1,11 @@
 %YAML:1.0
 
-inputImages: ./images/newCalibration
-outputImages: ./images/newCalibration
+inputImages: ./images/calibration_new_small_obj
+outputImages: ./images/newImages
 
 capturedImagesRectified: ./images/new
 
 capturedDisparities: ./images/disparityMaps
 
-outputParameter: ./newCalibration
-inputParameter: ./parameters
+outputParameter: ./newParameters
+inputParameter: ./images/calibration_new_small_obj
