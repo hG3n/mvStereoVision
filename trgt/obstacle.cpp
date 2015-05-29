@@ -144,7 +144,6 @@ int main(int argc, char* argv[])
   disparitySGBM = cv::StereoSGBM(0,numDispSGBM,windSizeSGBM,8*windSizeSGBM*windSizeSGBM,32*windSizeSGBM*windSizeSGBM);
   std::thread disparity(disparityCalc,std::ref(s),std::ref(disparitySGBM));
 
-  cv::Mat disparityZero = cv::Mat()
   obstacleDetection obst(dMapRaw, binning);
 
   running = true;
@@ -279,6 +278,16 @@ int main(int argc, char* argv[])
             std::cout << i << ": " << v[8][i] << std::endl;
           }
           std::cout << "" << std::endl;
+          break;
+        case 'k':
+          {
+            cv::FileStorage fs2("newCameraMatrices.yml", cv::FileStorage::WRITE);
+            std::vector<cv::Mat> u(stereo.getNewCameraMatrices());
+            fs2 << "cameraMatrixNewLeft" << u[0];
+            fs2 << "cameraMatrixNewRight" << u[1];
+            fs2.release();
+            std::cout << "new Camera Parameters saved successfully!" << std::endl;
+          }
           break;
         default:
           std::cout << "Key pressed has no action" <<std::endl;
