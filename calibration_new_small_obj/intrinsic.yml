@@ -25,3 +25,13 @@ distCoeffsRight: !!opencv-matrix
    data: [ -4.0089891166599628e-01, 2.2076896817934377e-01,
        6.9564719166393275e-04, -2.1149846925086124e-04,
        -7.4473844255325272e-02 ]
+newCameraMatrixLeft: !!opencv-matrix
+   rows: 0
+   cols: 0
+   dt: u
+   data: []
+newCameraMatrixRight: !!opencv-matrix
+   rows: 0
+   cols: 0
+   dt: u
+   data: []
