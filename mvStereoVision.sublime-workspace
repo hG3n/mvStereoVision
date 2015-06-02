@@ -1,0 +1,1356 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getNewCameraMatrices"
+			],
+			[
+				"new",
+				"getNewCameraMatrices"
+			],
+			[
+				"Ste",
+				"Stereosystem"
+			],
+			[
+				"gt",
+				"getNewCameraMatrices"
+			],
+			[
+				"mInt",
+				"mIntrinsicRight"
+			],
+			[
+				"min",
+				"mIntrinsicLeft"
+			],
+			[
+				"md",
+				"mDispMap"
+			],
+			[
+				"image",
+				"imageNumber"
+			],
+			[
+				"mP",
+				"mP1"
+			],
+			[
+				"mIn",
+				"mIntrinsicLeft"
+			],
+			[
+				"cam",
+				"cam0new"
+			],
+			[
+				"P",
+				"mP0"
+			],
+			[
+				"o",
+				"obst"
+			],
+			[
+				"st",
+				"stddev"
+			],
+			[
+				"dis",
+				"distance"
+			],
+			[
+				"obs",
+				"obstacleDetection"
+			],
+			[
+				"obst",
+				"obstacleDetection"
+			],
+			[
+				"Obst",
+				"obstacleDetection"
+			],
+			[
+				"w",
+				"while"
+			],
+			[
+				"Obsta",
+				"Obstacle"
+			],
+			[
+				"mSub",
+				"mSubimage"
+			],
+			[
+				"max",
+				"maxBorder"
+			],
+			[
+				"mDi",
+				"mDistanceMapMean"
+			],
+			[
+				"mDI",
+				"mDistanceMapMean"
+			],
+			[
+				"mdi",
+				"mDistanceMapMean"
+			],
+			[
+				"mdis",
+				"mDispMap"
+			],
+			[
+				"binn",
+				"binning"
+			],
+			[
+				"m",
+				"mDistanceMapMean"
+			],
+			[
+				"mdim",
+				"mDistanceMapMean"
+			],
+			[
+				"ca",
+				"calcDistance"
+			],
+			[
+				"dm",
+				"dMapNorm"
+			],
+			[
+				"draw",
+				"drawSubimageGrid"
+			],
+			[
+				"mean",
+				"meanStorage"
+			],
+			[
+				"getsu",
+				"getSubMat"
+			],
+			[
+				"CV",
+				"CV_32F"
+			],
+			[
+				"con",
+				"convertTo"
+			],
+			[
+				"dMa",
+				"dMap"
+			],
+			[
+				"gets",
+				"getSubdividedImages"
+			],
+			[
+				"mat",
+				"mat_32F"
+			],
+			[
+				"su",
+				"submatNorm"
+			],
+			[
+				"mSu",
+				"mSubMatrix"
+			],
+			[
+				"calc",
+				"calcMean"
+			],
+			[
+				"dist",
+				"distanceStorage"
+			],
+			[
+				"di",
+				"distanceStorage"
+			],
+			[
+				"mD",
+				"mDistanceMapMean"
+			],
+			[
+				"num",
+				"numElements"
+			],
+			[
+				"coor",
+				"coordinateQ"
+			],
+			[
+				"Wie",
+				"WINDOW_AUTOSIZE"
+			],
+			[
+				"sub",
+				"subvec"
+			],
+			[
+				"tmp",
+				"tmpMat"
+			],
+			[
+				"tmpRe",
+				"tmpRect"
+			],
+			[
+				"re",
+				"returnsValues"
+			],
+			[
+				"std",
+				"stdDev"
+			],
+			[
+				"set",
+				"setExposure"
+			],
+			[
+				"Auto",
+				"AUTO_EXPOSURE"
+			],
+			[
+				"mCa",
+				"mCameraSettingsBlueFOX"
+			],
+			[
+				"return",
+				"returnValues"
+			],
+			[
+				"retr",
+				"returnValues"
+			],
+			[
+				"me",
+				"meanStdDevMat"
+			],
+			[
+				"co",
+				"const"
+			],
+			[
+				"s",
+				"samplepoints"
+			],
+			[
+				"ne",
+				"newRect"
+			],
+			[
+				"dma",
+				"dMapRaw"
+			],
+			[
+				"CV_",
+				"CV_32F"
+			],
+			[
+				"Q",
+				"Q_32F"
+			],
+			[
+				"disp",
+				"disparity"
+			],
+			[
+				"dispa",
+				"disparity"
+			],
+			[
+				"dMap",
+				"dMapRaw"
+			],
+			[
+				"inti",
+				"initWindows"
+			],
+			[
+				"dispar",
+				"calcDisparityMap"
+			],
+			[
+				"b",
+				"binnig"
+			],
+			[
+				"shrp",
+				"sharpnessRight"
+			],
+			[
+				"shar",
+				"sharpness"
+			],
+			[
+				"pl",
+				"p1Left"
+			],
+			[
+				"view",
+				"viewAreaLeft"
+			],
+			[
+				"ctr",
+				"ctrL"
+			],
+			[
+				"p1",
+				"p1Left"
+			],
+			[
+				"vie",
+				"viewAreaLeft"
+			],
+			[
+				"fos",
+				"focusRight"
+			],
+			[
+				"focs",
+				"focusLeft"
+			],
+			[
+				"foc",
+				"focusRight"
+			],
+			[
+				"M",
+				"Mleft"
+			],
+			[
+				"focu",
+				"focusLeft"
+			],
+			[
+				"Utili",
+				"Utility"
+			],
+			[
+				"images",
+				"imagesLeft"
+			],
+			[
+				"rms",
+				"rmsStereo"
+			],
+			[
+				"ster",
+				"stereoRMS"
+			],
+			[
+				"Left",
+				"LEFT"
+			],
+			[
+				"imaes",
+				"imagesize"
+			],
+			[
+				"ima",
+				"imagesRight"
+			],
+			[
+				"cal",
+				"calibration"
+			],
+			[
+				"iag",
+				"imageRight"
+			],
+			[
+				"imae",
+				"imageLeft"
+			],
+			[
+				"im",
+				"imageLeft"
+			],
+			[
+				"lef",
+				"imagesLeft"
+			],
+			[
+				"gra",
+				"grayImageRight"
+			],
+			[
+				"fou",
+				"foundLeft"
+			],
+			[
+				"corer",
+				"cornersLeft"
+			],
+			[
+				"v",
+				"vCorners"
+			],
+			[
+				"push",
+				"push_back"
+			],
+			[
+				"file",
+				"filenamesLeft"
+			],
+			[
+				"iMa",
+				"imagesLeft"
+			],
+			[
+				"fil",
+				"filenamesRight"
+			],
+			[
+				"filen",
+				"filenamesLeft"
+			],
+			[
+				"fie",
+				"filenamesLeft"
+			],
+			[
+				"S",
+				"Stereosystem"
+			],
+			[
+				"chess",
+				"chessboardSize"
+			],
+			[
+				"css",
+				"chessboardSize"
+			],
+			[
+				"pater",
+				"patternSize"
+			],
+			[
+				"patter",
+				"patternSize"
+			],
+			[
+				"varia",
+				"varianceLeft"
+			],
+			[
+				"dev",
+				"devLeft"
+			],
+			[
+				"var",
+				"varianceLeft"
+			],
+			[
+				"Discac",
+				"disparityCalcBM"
+			],
+			[
+				"Se",
+				"StereoBM"
+			],
+			[
+				"dsp",
+				"disparityLock"
+			],
+			[
+				"Ster",
+				"StereoSGBM"
+			],
+			[
+				"in",
+				"inputImages"
+			],
+			[
+				"St",
+				"Stereopair"
+			],
+			[
+				"imr",
+				"imagesRight"
+			],
+			[
+				"int",
+				"mIntrinsicLeft"
+			],
+			[
+				"mr",
+				"mRight"
+			],
+			[
+				"pat",
+				"pathLeft"
+			],
+			[
+				"camera",
+				"cameraMatrixLeft"
+			],
+			[
+				"ime",
+				"imagePointsRight"
+			],
+			[
+				"obj",
+				"objectPoints"
+			],
+			[
+				"corners",
+				"cornersLeft"
+			],
+			[
+				"corn",
+				"cornerSubPix"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/Camera.cpp",
+			"settings":
+			{
+				"buffer_size": 6747,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/Camera.h",
+			"settings":
+			{
+				"buffer_size": 2131,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/subimage.cpp",
+			"settings":
+			{
+				"buffer_size": 2750,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/subimage.h",
+			"settings":
+			{
+				"buffer_size": 1166,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/utility.h",
+			"settings":
+			{
+				"buffer_size": 1656,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/utility.cpp",
+			"settings":
+			{
+				"buffer_size": 6524,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/obstacleDetection.h",
+			"settings":
+			{
+				"buffer_size": 1586,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/obstacleDetection.cpp",
+			"settings":
+			{
+				"buffer_size": 5798,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Stereosystem.cpp",
+			"settings":
+			{
+				"buffer_size": 11783,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/Stereosystem.h",
+			"settings":
+			{
+				"buffer_size": 1569,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "trgt/capture.cpp",
+			"settings":
+			{
+				"buffer_size": 4480,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "trgt/obstacle.cpp",
+			"settings":
+			{
+				"buffer_size": 7700,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "trgt/calibrate-stereo.cpp",
+			"settings":
+			{
+				"buffer_size": 2146,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 243.0,
+		"selected_items":
+		[
+			[
+				":w",
+				":w - Save"
+			],
+			[
+				":c+",
+				"Set Syntax: C++"
+			],
+			[
+				":x",
+				"Set Syntax: XSL"
+			],
+			[
+				":c++",
+				"Set Syntax: C++"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"sub",
+				"SublimeCodeIntel: Dump Import Directories"
+			],
+			[
+				"dis",
+				"SublimeCodeIntel: Disable Plugin"
+			],
+			[
+				":W",
+				":w - Save"
+			],
+			[
+				":q",
+				"Set Syntax: SQL"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/hiller/Documents/project/mvStereoVision/trgt/obstacle.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/captureRectified.cpp",
+		"/home/hiller/Desktop/spatial/examples/performance/insert_performance.cpp",
+		"/home/hiller/Desktop/spatial/examples/include/random.hpp",
+		"/home/hiller/Desktop/spatial/examples/include/chrono.hpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/obstacle.h",
+		"/home/hiller/Documents/project/mvStereoVision/src/obstacle.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/src/Stereosystem.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/src/obstacleDetection.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/Stereosystem.h",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/calibrate-stereo.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/captureDisparity.cpp",
+		"/home/hiller/.config/sublime-text-2/Packages/Theme - Default/Default.sublime-theme",
+		"/home/hiller/.config/sublime-text-2/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/obstacleDetection.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/epipolarLines.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/continousCapture.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/continousCaptureRectified.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/disparityTest.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/distanceMeasurement.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/liveView.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/test.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/capture.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/Camera.h",
+		"/home/hiller/Documents/project/mvStereoVision/inc/mvStereoVision.sublime-project",
+		"/home/hiller/Documents/project/mvStereoVision/src/utility.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/obstacleDetection.h",
+		"/home/hiller/Documents/project/mvStereoVision/inc/subimage.h",
+		"/home/hiller/Documents/project/mvStereoVision/src/subimage.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/utility.h",
+		"/home/hiller/Documents/360degImages/js/panorama.js",
+		"/home/hiller/Documents/project/mvStereoVision/src/Camera.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/docu/documentation.tex",
+		"/home/hiller/Documents/project/stereo-capture/calibrate/calibrate.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/docu/documentation.",
+		"/home/hiller/Documents/project/mvStereoVision/addfiles",
+		"/home/hiller/Documents/project/mvStereoVision/src/view.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/inc/view.h",
+		"/home/hiller/Documents/project/mvStereoVision/disparity.yml",
+		"/home/hiller/Documents/project/n-aryTree/nAryTree.h",
+		"/home/hiller/Documents/project/mvStereoVision/inc/disparity.h",
+		"/home/hiller/Documents/project/mvStereoVision/src/disparity.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/subimage.h",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/testsetting.cpp",
+		"/home/hiller/Documents/project/mvStereoVision/trgt/liveUndistortion.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/src/Camera.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/src/disparity.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/src/Stereosystem.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/distanceMeasurement.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/src/utility.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/liveView.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/captureDisparity.cpp",
+		"/home/slam4uav/Documents/project/MotionEstimation/motionEstimation/data/maliksupertest/disparity/disparity_0.yml",
+		"/home/slam4uav/Documents/project/mvStereoVision/inc/Stereosystem.h",
+		"/home/slam4uav/Documents/project/mvStereoVision/inc/disparity.h",
+		"/home/slam4uav/Documents/project/mvStereoVision/inc/Camera.h",
+		"/home/slam4uav/Documents/project/mvStereoVision/inc/utility.h",
+		"/home/slam4uav/Documents/project/OpticalFlow/motionEstimation/MotionEstimation.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/configs/default.yml",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/capture.cpp",
+		"/home/slam4uav/Documents/project/calibrate/calibrate.cpp",
+		"/home/slam4uav/Documents/project/fisheye/fisheye.cpp",
+		"/home/slam4uav/Documents/project/stereo-capture/calibrate/calibrate.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/calibrate-stereo.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/captureRectified.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/liveDisparity.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/.git/config",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/calibrate-single.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/show-undistorted.cpp",
+		"/home/slam4uav/Documents/project/mvStereoVision/parameter/extrinsic.yml",
+		"/home/slam4uav/Documents/project/mvStereoVision/parameter/intrinsic.yml",
+		"/home/slam4uav/Documents/project/mvStereoVision/trgt/show-rectified.cpp",
+		"/etc/sysctl.d/10-ptrace.conf",
+		"/home/slam4uav/Documents/project/OpticalFlow/.gitignore",
+		"/home/slam4uav/Desktop/10-ptrace.conf",
+		"/home/slam4uav/Documents/project/mvStereoVision/src/main.cpp",
+		"/home/slam4uav/Documents/project/stereo-capture/capture_stream.cpp",
+		"/home/slam4uav/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/slam4uav/.config/sublime-text-2/Packages/C++/cout.sublime-snippet"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"ficktor",
+			"tmp",
+			"m",
+			"(),\n",
+			"200",
+			"0",
+			"160",
+			"130",
+			"mSubimage",
+			"MEAN_DISPARITY",
+			"binnin",
+			"83",
+			"stream.rows",
+			"0",
+			"255",
+			"binning",
+			"distanceStorage",
+			"1",
+			");\n",
+			"conver",
+			"c",
+			"r",
+			"\n}",
+			"i",
+			"mSubimages",
+			"i",
+			"toReturn",
+			"int",
+			"mSubimages",
+			"mSubMat",
+			"std",
+			"mSUbImag",
+			"mSUbImage",
+			"std::string const&",
+			"tmp",
+			"Subimages",
+			"Subimage",
+			"mat",
+			"SubImage",
+			"int",
+			"__OBSTACLE__H__",
+			"__UTILITY__H__",
+			"dMapRaw",
+			"disparity",
+			"float",
+			"R",
+			"disp",
+			"}\n",
+			"dispMapSGBM\ndisp",
+			"dispMapSGBM\ndispMap",
+			"Q",
+			"double",
+			"dispMapSGBM",
+			"dMap",
+			"dispMapSGBM",
+			"disparityCa",
+			"baseline",
+			"Q_32",
+			"fs",
+			"baseline",
+			"mouseClick",
+			"Left",
+			"left",
+			"Left",
+			"ctrL",
+			"counter",
+			"Lx",
+			"left",
+			"Left",
+			"src",
+			"left",
+			"LEFT",
+			"imagesLeft[i]",
+			"Left",
+			"boardSize",
+			"squaresize",
+			"cv::Mat",
+			"Left",
+			"mLeft",
+			"Left",
+			"backup",
+			"parameter",
+			"Left",
+			"load",
+			"Left",
+			"grey",
+			"a"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 9,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/Camera.cpp",
+					"settings":
+					{
+						"buffer_size": 6747,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								965,
+								965
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 972.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "inc/Camera.h",
+					"settings":
+					{
+						"buffer_size": 2131,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1038,
+								1038
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/subimage.cpp",
+					"settings":
+					{
+						"buffer_size": 2750,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "inc/subimage.h",
+					"settings":
+					{
+						"buffer_size": 1166,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1092,
+								1092
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "inc/utility.h",
+					"settings":
+					{
+						"buffer_size": 1656,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/utility.cpp",
+					"settings":
+					{
+						"buffer_size": 6524,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "inc/obstacleDetection.h",
+					"settings":
+					{
+						"buffer_size": 1586,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								821,
+								821
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/obstacleDetection.cpp",
+					"settings":
+					{
+						"buffer_size": 5798,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1538,
+								1538
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 810.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/Stereosystem.cpp",
+					"settings":
+					{
+						"buffer_size": 11783,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11234,
+								11234
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 6302.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "inc/Stereosystem.h",
+					"settings":
+					{
+						"buffer_size": 1569,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1069,
+								1069
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 11,
+					"file": "trgt/capture.cpp",
+					"settings":
+					{
+						"buffer_size": 4480,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2157,
+								2157
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1026.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "trgt/obstacle.cpp",
+					"settings":
+					{
+						"buffer_size": 7700,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								554,
+								554
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 108.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "trgt/calibrate-stereo.cpp",
+					"settings":
+					{
+						"buffer_size": 2146,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								813,
+								813
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 486.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 124.0,
+	"status_bar_visible": true
+}
