@@ -13,3 +13,9 @@ obj/
 trgt_obj/
 #fileadding script
 addfiles
+#sublime stuff
+*.sublime-project
+*.sublime-workspace
+#docu folder
+docu
+
