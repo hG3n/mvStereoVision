@@ -2,21 +2,23 @@
 #include "utility.h"
 #include "math.h"
 
+// Semi Global Block matching 
 void Disparity::sgbm(Stereopair const& inputImages, cv::Mat &output, cv::StereoSGBM dispCompute)
 {
 	dispCompute(inputImages.mLeft,inputImages.mRight,output);
 	//output/=16;
 }
 
+// simple blockmatching 
 void Disparity::bm(Stereopair const& inputImages, cv::Mat &output, cv::StereoBM dispCompute)
 {
   dispCompute(inputImages.mLeft,inputImages.mRight,output);
-  output/=16;
+  //output/=16;
 }
 
+// self written template matching algorithm
 void Disparity::tm(Stereopair const& inputImages, cv::Mat &output, unsigned int kernelSize)
 {
-
   output = cv::Mat(inputImages.mLeft.rows, inputImages.mLeft.cols,CV_8U,cv::Scalar::all(0));
 
   cv::Mat currentTemplate;
