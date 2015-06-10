@@ -47,20 +47,17 @@ struct CameraInit
 
 namespace Utility
 {
-	int getFiles (std::string const& dir, std::vector<std::string> &files);
-	bool directoryExist(std::string const& dirPath);
-	bool createDirectory(std::string const& dirPath);
+	int 	getFiles (std::string const& dir, std::vector<std::string> &files);
+	bool 	directoryExist(std::string const& dirPath);
+	bool 	createDirectory(std::string const& dirPath);
 
-	bool initCameras(mvIMPACT::acquire::DeviceManager&,Camera*&,Camera*&);
+	bool 	initCameras(mvIMPACT::acquire::DeviceManager&,Camera*&,Camera*&);
 
-	bool checkConfig(std::string const&,std::vector<std::string> const&, cv::FileStorage &);
+	bool 	checkConfig(std::string const&,std::vector<std::string> const&, cv::FileStorage &);
 
-	double checkSharpness(cv::Mat const&);
-	bool covariance(cv::Mat const&, cv::Mat const&, cv::Scalar&);
-	bool standartDeviation(cv::Mat const&, cv::Scalar&);
-	bool normalizedCrossCorrelation(Stereopair const&, cv::Mat&);
+	double 	checkSharpness(cv::Mat const&);
 
-	bool calcCoordinate(cv::Mat_<float> &,cv::Mat const&, cv::Mat const&,int,int);
+	bool 		calcCoordinate(cv::Mat_<float> &,cv::Mat const&, cv::Mat const&,int,int);
 }
 
 #endif //__UTILITY__H__

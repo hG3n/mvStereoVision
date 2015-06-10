@@ -3,6 +3,9 @@
 std::string mTag = "UTILITY\t";
 
 
+// -----------------------------------------------------------------------------
+// --- streopair ---------------------------------------------------------------
+// -----------------------------------------------------------------------------
 Stereopair::Stereopair():
   mLeft(),
   mRight(),
@@ -23,6 +26,9 @@ Stereopair::~Stereopair()
 }
 
 
+// -----------------------------------------------------------------------------
+// --- utility - directory -----------------------------------------------------
+// -----------------------------------------------------------------------------
 int Utility::getFiles (std::string const& dir, std::vector<std::string> &files)
 {
   DIR *dp;
@@ -71,6 +77,10 @@ bool Utility::createDirectory(std::string const& dirPath)
     return false;
 }
 
+
+// -----------------------------------------------------------------------------
+// --- utility - init Cameras --------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Utility::initCameras(mvIMPACT::acquire::DeviceManager &devMgr, Camera *&left, Camera *&right)
 {
   const unsigned int devCnt = devMgr.deviceCount();
@@ -116,6 +126,9 @@ bool Utility::initCameras(mvIMPACT::acquire::DeviceManager &devMgr, Camera *&lef
 }
 
 
+// -----------------------------------------------------------------------------
+// --- utility - config --------------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Utility::checkConfig(std::string const& configfile, std::vector<std::string> const& nodes, cv::FileStorage &fs)
 {
   bool success = fs.open(configfile, cv::FileStorage::READ);
@@ -143,6 +156,10 @@ bool Utility::checkConfig(std::string const& configfile, std::vector<std::string
   }
 }
 
+
+// -----------------------------------------------------------------------------
+// --- utility - helper --------------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Utility::calcCoordinate(cv::Mat_<float> &toReturn,cv::Mat const& Q, cv::Mat const& disparityMap,int x,int y)
 {
     double d = static_cast<float>(disparityMap.at<short>(y,x));
