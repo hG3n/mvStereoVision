@@ -28,17 +28,6 @@ class Camera
 						Camera(mvIMPACT::acquire::Device*);
 						~Camera();
 
-		//Functions
-		bool 				getImage(std::vector<char>&);
-		double 			calibrate(std::vector<cv::Mat> const&, double, cv::Size);
-
-		//Setter
-		void 			setExposure(unsigned int);
-		void 			setGain(float);
-		void 			setPixelFormat(int);
-		void 			setBinning(unsigned int);
-
-		void			setIntrinsic(cv::Mat);
 		//Getter
 		float 				getFramerate() 		const;
 		unsigned int 	getImageWidth() 	const;
@@ -49,6 +38,16 @@ class Camera
 		cv::Mat 			getIntrinsic() 		const;
 		cv::Mat 			getDistCoeffs() 	const;
 
+		//Setter
+		void 			setExposure(unsigned int);
+		void 			setGain(float);
+		void 			setPixelFormat(int);
+		void 			setBinning(unsigned int);
+		void			setIntrinsic(cv::Mat);
+
+		//Functions
+		bool 				getImage(std::vector<char>&);
+		double 			calibrate(std::vector<cv::Mat> const&, double, cv::Size);
 
 	private:
 		//Camera settings
@@ -68,8 +67,9 @@ class Camera
 		//image width and height
 		unsigned int 								mWidth;
 		unsigned int 								mHeight;
-		int 										mBinningMode;
+		int 												mBinningMode;
 
+		// intrinsics of a camera
 		cv::Mat mIntrinsic;
 		cv::Mat mDistCoeffs;
 };

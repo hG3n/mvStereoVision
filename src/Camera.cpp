@@ -45,7 +45,114 @@ Camera::~Camera()
 	LOG(INFO)<< mTag <<"Camera destroyed." << std::endl;
 }
 
+// -----------------------------------------------------------------------------
+// --- getter ------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+float Camera::getFramerate() const
+{
+  return mStatistics.framesPerSecond.read();
+}
 
+unsigned int Camera::getImageWidth() const
+{
+  return mWidth;
+}
+
+unsigned int Camera::getImageHeight() const
+{
+  return mHeight;
+}
+
+int Camera::getExposure() const
+{
+  return mCameraSettingsBlueFOX.expose_us.read();
+}
+
+float Camera::getGain() const
+{
+  return mCameraSettingsBlueFOX.gain_dB.read();
+}
+
+int Camera::getBinningMode() const
+{
+  return mBinningMode;
+}
+
+cv::Mat Camera::getIntrinsic() const
+{
+  return mIntrinsic;
+}
+
+cv::Mat Camera::getDistCoeffs() const
+{
+  return mDistCoeffs;
+}
+
+// -----------------------------------------------------------------------------
+// --- setter ------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+void Camera::setExposure(unsigned int exposure)
+{
+  mCameraSettingsBlueFOX.expose_us.write(exposure);
+  LOG(INFO) << mTag << "Set exposure time to " << exposure << std::endl;
+}
+
+void Camera::setGain(float gain)
+{
+  mCameraSettingsBlueFOX.gain_dB.write(gain);
+  LOG(INFO) << mTag << "Set gain DB to " << gain << std::endl;
+}
+
+void Camera::setPixelFormat(int option)
+{
+  switch(option)
+  {
+    case MONO8:
+      mImageDestinaton.pixelFormat.write(mvIMPACT::acquire::idpfMono8);
+      mCameraSettingsBase.pixelFormat.write(mvIMPACT::acquire::ibpfMono8);
+      LOG(INFO) << mTag << "Set Pixelformat to Mono8" << std::endl;
+      break;
+    default:
+      LOG(WARNING) << mTag << "Unknown Pixelformat" <<std::endl;
+    //doesnt work
+    /*case MONO16:
+      mImageDestinaton.pixelFormat.write(mvIMPACT::acquire::idpfMono16);
+      mCameraSettingsBase.pixelFormat.write(mvIMPACT::acquire::ibpfMono16);
+      LOG(INFO) << mTag << "Set Pixelformat to Mono16" << std::endl;
+      break;*/
+  }
+}
+
+void Camera::setBinning(unsigned int option)
+{
+  switch(option)
+  {
+    case BINNING_OFF:
+      mCameraSettingsBlueFOX.binningMode.write(mvIMPACT::acquire::cbmOff);
+      LOG(INFO) << mTag << "Set binning mode off." <<std::endl;
+      mBinningMode = BINNING_OFF;
+      break;
+    case BINNING_HV:
+      mCameraSettingsBlueFOX.binningMode.write(mvIMPACT::acquire::cbmBinningHV);
+      LOG(INFO) << mTag << "Set horizontal and vertical binning mode." <<std::endl;
+      mBinningMode = BINNING_HV;
+      break;
+    default:
+      LOG(WARNING)<< mTag << "Unknown binning mode: " << option <<\
+                 ". No binning performed." << std::endl;
+      break;
+  }
+}
+
+void Camera::setIntrinsic(cv::Mat intrinsic)
+{
+    intrinsic.copyTo(mIntrinsic);
+}
+
+
+// -----------------------------------------------------------------------------
+// --- functions ---------------------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Camera::getImage(std::vector<char> &imageToReturn)
 {
 	int result = DMR_NO_ERROR;
@@ -115,6 +222,7 @@ double Camera::calibrate(std::vector<cv::Mat> const& images, double patternsize,
 		cv::Mat grayImage;
   	cv::cvtColor(images[i], grayImage, CV_BGR2GRAY);
 
+    // try to find chessboard corners within an image
     bool found = cv::findChessboardCorners( grayImage, chessboardSize, corners, CV_CALIB_CB_ADAPTIVE_THRESH | CV_CALIB_CB_FILTER_QUADS);
 
 		if(found) {
@@ -139,103 +247,6 @@ double Camera::calibrate(std::vector<cv::Mat> const& images, double patternsize,
   mIntrinsic = intrinsic;
   mDistCoeffs = distCoeffs;
 
+  // return reprojection error to determine the quality of a calibration
   return rms;
-}
-
-void Camera::setExposure(unsigned int exposure)
-{
-	mCameraSettingsBlueFOX.expose_us.write(exposure);
-	LOG(INFO) << mTag << "Set exposure time to " << exposure << std::endl;
-}
-
-void Camera::setGain(float gain)
-{
-	mCameraSettingsBlueFOX.gain_dB.write(gain);
-	LOG(INFO) << mTag << "Set gain DB to " << gain << std::endl;
-}
-
-void Camera::setPixelFormat(int option)
-{
-	switch(option)
-	{
-		case MONO8:
-			mImageDestinaton.pixelFormat.write(mvIMPACT::acquire::idpfMono8);
-			mCameraSettingsBase.pixelFormat.write(mvIMPACT::acquire::ibpfMono8);
-			LOG(INFO) << mTag << "Set Pixelformat to Mono8" << std::endl;
-			break;
-		default:
-			LOG(WARNING) << mTag << "Unknown Pixelformat" <<std::endl;
-		//doesnt work
-		/*case MONO16:
-			mImageDestinaton.pixelFormat.write(mvIMPACT::acquire::idpfMono16);
-			mCameraSettingsBase.pixelFormat.write(mvIMPACT::acquire::ibpfMono16);
-			LOG(INFO) << mTag << "Set Pixelformat to Mono16" << std::endl;
-			break;*/
-	}
-}
-
-void Camera::setBinning(unsigned int option)
-{
-	switch(option)
-	{
-		case BINNING_OFF:
-			mCameraSettingsBlueFOX.binningMode.write(mvIMPACT::acquire::cbmOff);
-			LOG(INFO) << mTag << "Set binning mode off." <<std::endl;
-			mBinningMode = BINNING_OFF;
-			break;
-		case BINNING_HV:
-			mCameraSettingsBlueFOX.binningMode.write(mvIMPACT::acquire::cbmBinningHV);
-			LOG(INFO) << mTag << "Set horizontal and vertical binning mode." <<std::endl;
-			mBinningMode = BINNING_HV;
-			break;
-		default:
-			LOG(WARNING)<< mTag << "Unknown binning mode: " << option <<\
-								 ". No binning performed." << std::endl;
-			break;
-	}
-}
-
-void Camera::setIntrinsic(cv::Mat intrinsic)
-{
-    intrinsic.copyTo(mIntrinsic);
-}
-
-float Camera::getFramerate() const
-{
-	return mStatistics.framesPerSecond.read();
-}
-
-unsigned int Camera::getImageWidth() const
-{
-	return mWidth;
-}
-
-unsigned int Camera::getImageHeight() const
-{
-	return mHeight;
-}
-
-int Camera::getExposure() const
-{
-	return mCameraSettingsBlueFOX.expose_us.read();
-}
-
-float Camera::getGain() const
-{
-	return mCameraSettingsBlueFOX.gain_dB.read();
-}
-
-int Camera::getBinningMode() const
-{
-	return mBinningMode;
-}
-
-cv::Mat Camera::getIntrinsic() const
-{
-	return mIntrinsic;
-}
-
-cv::Mat Camera::getDistCoeffs() const
-{
-	return mDistCoeffs;
 }
