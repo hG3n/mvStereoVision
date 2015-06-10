@@ -7,5 +7,5 @@ capturedImagesRectified: ./images/rotation_test
 
 capturedDisparities: ./images/disparityMaps
 
-outputParameter: ./newCalibration
-inputParameter: ./newCalibration
+outputParameter: ./parameter/newCalibration
+inputParameter: ./parameter/newCalibration
