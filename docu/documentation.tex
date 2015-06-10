@@ -69,11 +69,11 @@ The preprocessing step is done on two levels; one is the single camera and the s
         \caption{Camera calibration corrects distortions}\label{fig:undistortion}
 \end{figure}
 
-In Figure \ref{fig:undistortion} the result of the camera calibration is illustrated. It is obvious that the checkerboard edges are curved and the junctions do not have right angles. After the calibration the everything is straight and correct. At the same time it is visible that some information is lost during the calibration, which is due to "unwarping" the image.
+In Figure \ref{fig:undistortion} the result of the camera calibration is illustrated. It is obvious that the checkerboard edges are curved and the junctions do not have right angles. After the calibration everything is straight and correct. At the same time it is visible that some information is lost during the calibration, which is due to "unwarping" the image.
 
 \bigskip
 
-During the process of depth map estimation we are going to take features in the left image and search them in the right image. But since this is a 2D search domain ($x$ and $y$ direction) it would be nice to ensure that the searched feature in the right image is at least in the same row as in the left image. This process is called \emph{rectification}. After the rectification step, we can assume that the camera images have no horizontal shift anymore. This reduces the feature search problem to a one dimensional (vertical) search problem. Furthermore, under the precondition that there is only a vertical shift and both cameras are identical, we can say that a feature from column $x_{Left}$ is at least at the same position in the right image so it holds that $x_{Right}\geq x_{Left}$. This also reduces the search problem, since the closer $x_{Left}$ is to $x_{Max}$ the smaller is the set of elements to search in.
+During the process of depth map estimation we are going to take features in the left image and search them in the right image. But since this is a 2D search domain ($x$ and $y$ direction) it would be nice to ensure that the searched feature in the right image is at least in the same row as in the left image. This is done via \emph{rectification}. After the rectification step, we can assume that the camera images have no horizontal shift anymore. This reduces the feature search problem to a one dimensional (horizontal) search problem. Furthermore, under the precondition that there is only a horizontal shift, the cameras are not turned to each other and both cameras are identical, we can say that a feature from column $x_{Left}$ is at least at the same position in the right image so it holds that $x_{Right}\geq x_{Left}$. This also reduces the search problem, since the closer $x_{Left}$ is to $x_{Max}$ the smaller is the set of elements to search in.
 
 \paragraph{Epipolar geometry} We will explain the outcome of the rectification with the help of the epipolar geometry. Each 3D object point is mapped into the 2D image of both cameras. The object point $O$ defines an image point $P(x_l,y_l)$ in the left image. The question is now, where is the corresponding point in the right image? To find the corresponding point one would have to search the epipolar line of that image point in the right image. This line is determined by the projection of the line $O$--$P(x_l,y_l)$ on the image plane of the right image. But this would mean that we would have to calculate the epipolar line for each pixel and search along this line for the corresponding point. The rectification simplifies the search such that the image planes are "corrected" in such a way that all epipolar lines are parallel and horizontal. This ensures that the corresponding point is on the same row as the source point. The process is illustrated in figure \ref{fig:epipolar}
  
@@ -86,9 +86,6 @@ During the process of depth map estimation we are going to take features in the 
 \footnotetext{Image courtesy \href{http://www.intechopen.com/source/html/16684/media/image4.jpg}{http://www.intechopen.com/source/html/16684/media/image4.jpg}}
 
 The search problem is shown in figure \ref{fig:rectification}. The red lines connect related features in the left and right image. The yellow line shows the medial pixel row; therefore, it is perfectly vertically. One can see that the red lines and the yellow line in Figure \ref{fig:rect_1} are not parallel. This indicates that the related features are not in the same row. Thus, several rows has to be searched for corresponding features; a 2D search problem. Figure \ref{fig:rect_2} shows the rectified images. During the rectification the image is stretched, warped etc. to parallelize and horizontalize the epipolar lines. The blue rectangle indicates the \emph{valid} area of the rectified images. This is the area where no black pixels, which are introduced during rectification, are part of the image. Figure \ref{fig:rect_3} shows the cropped and scaled rectified image. All corresponding points are now on the same row.
-
-After the rectification process the 
-
 
 
 \begin{figure}[H]
@@ -167,7 +164,7 @@ Q=
 
 
 
-So to reproject a point to 3D coordinates we need the $x$ and $y$ position in the left image, the disparity value $d(x,y)$ and $Q$. We construct a vector $\vec{o}=(x\;y\;d\;1)^T$ and multiply $Q$ with it so we obtain 3D coordinates $\vec{c}=(X\;Y\;Z\;W)$ which we have to divide by $W$.
+So to reproject a point to 3D coordinates we need the $x$ and $y$ position in the left image, the disparity value $d(x,y)$ and $Q$. We construct a vector $\vec{o}=(x\;y\;d\;1)^T$ and multiply $Q$ with it so we obtain 3D coordinates $\vec{c}=(X\;Y\;Z\;W)$ which we have to normalize by $W$.
 
 \begin{align*}
 	\vec{c}&=Q\cdot \vec{o}\;^T = (X\;Y\;Z\;W)^T\\
@@ -187,8 +184,6 @@ The system uses the SDK just for image acquisition, either in full resolution (7
 After the images are acquired they are transferred to OpenCV matrices. Therefore, \href{http://opencv.org/}{OpenCV} is the second dependency one will need to use the framework. We used version 2.4.9 to develop and test the framework. OpenCV is used for nearly every image processing and computer vision task in the framework.
 
 The last dependency is a C++ compiler with C++11 support, such as the gcc-4.9.2.
-
-For our testing setup we attached the cameras to a magnetic stand which cn be moved onto a steel plate. In order to get exact real world measurements we also used a laser operated distance measurement device (Leica Disto $pro^4\ a$).
 
 \subsection{Framework Components}
 The three steps which we described earlier in section \ref{sec:101} are reflected in the framework composition. The framework consists of the two classes \texttt{Camera} and \texttt{Stereosystem} and the namespaces \texttt{disparity} and \texttt{utility}. In Figure \ref{fig:framework} the data flow between the components is shown.
@@ -220,7 +215,7 @@ f_x & 0 & c_x\\
 
 The framework searches for some object points  in some calibration images which contain a calibration object. The calibration object is a checkerboard with known dimensions and known number of rows and columns. The algorithm then calculates the camera matrix and the distortion coefficients such that the object points (the checkerboard intersections)  are collinear and hence, the checkerboard edges are straight.%TODO example undistorted, checkerboard find
 
-The calibration function returns the root mean square re-projection error (RMS). For a good calibration it should be between 0.1 and 1 pixel. With the Matrix Vision cameras and the wooden calibration object we expect the RMS to be less then 0.2. We made the experience that 10 to 15 images are sufficient for a good calibration. Fewer or more images could downgrade the calibration result. 
+The calibration function returns the root mean square re-projection error (RMS). For a good calibration it should be between 0.1 and 0.5 pixel. With the Matrix Vision cameras and the wooden calibration object we expect the RMS to be less then 0.2. We made the experience that 10 to 15 images are sufficient for a good calibration. Fewer or more images could downgrade the calibration result. 
 
 
 For the stereo setup the intrinsic parameters are not enough. We need further information about placement and orientation of the cameras to each other for correct rectification. This information is called \emph{extrinsic parameters}. The extrinsic parameters describe the translation and rotation of the right camera to the left camera. By the way, we always assume the left camera to be the reference system. With the help of the OpenCV function \texttt{stereoCalibrate} we can determine the extrinsic parameters ([R]otation matrix and [T]ranslation matrix), the [F]undamental and [E]ssential matrix.
@@ -240,7 +235,7 @@ For some examples how the framework us used for image acquisition and disparity 
 
 
 \section{Evaluation}
-In order to evaluate our system we used the tools described in section \ref{sec:hardware}. We used a laser distance meter (LDM) as reference. 
+In order to evaluate our system we used the tools described in section \ref{sec:hardware}. We used a Leica Disto $pro^4\ a$ laser distance meter (LDM) as reference. 
 
 The laser distance meter was aligned beyond the left camera sensor. Using this setup we could measure our distances using the developed framework and check the values using the output of the LDM as reference measurement. Basically we tested our Setup in three different ways:
 
@@ -420,7 +415,7 @@ When taking a closer look to the measuered values it is quiet clear to see that 
 Although these results are quiet promising when looking forward to a future obstacle detection and the accuracy which could be achieved by using our framework.
 
 \subsection{Evaluation discussion}
-While taking a look onto the results of our tests it is quiet clear to see, that the accuracy of our system is fairy high. There are some outliers in the absolute measurement data as well as in the obstacle size data. These can refer to different reasons. One of them is a still known problem when trying to calculate a disparity on homogeneous areas. Because of a lack of texture it is hard to estimate whether the pixels belon to each other in the reference image. This could be a reason for high value drifts. Another problem was the missing exposure control (which was implemented after performing the tests). If the exposure is either too high or too low the pixel value is changing. This change could lead to homogeneous areas (where there are no) or an overly sensitive detection of disparity. Also the position of other objects throwing shadows on the main measurement object could be a reason. \\\\
+While taking a look onto the results of our tests it is quiet clear to see, that the accuracy of our system is fairly high. There are some outliers in the absolute measurement data as well as in the obstacle size data. These can refer to different reasons. One of them is a still known problem when trying to calculate a disparity on homogeneous areas. Because of a lack of texture it is hard to estimate whether the pixels below to each other in the reference image. This could be a reason for high value drifts. Another problem was the missing exposure control (which was implemented after performing the tests). If the exposure is either too high or too low the pixel value is changing. This change could lead to homogeneous areas (where there are no) or an overly sensitive detection of disparity. Also the position of other objects throwing shadows on the main measurement object could be a reason. \\\\
 That was the main reason of doing relative tests. They basically proof the good quality of the calculated disparity maps and the connected estimated distance. Also there was nearly no difference between binned and unbinned mode of image capturing. The estimated Distance was nearly the same, only accuracy when pointing at different areas was lower because of the bisected resolution from $752\times480$ down to $376\times240$.
 
 \section{Discussion}
