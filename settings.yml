@@ -1,6 +1,0 @@
-%YAML:1.0
-minDisparity: 10
-numDisparities: 96
-SADWindowSize: 11
-smoothnessFactor1: 8
-smoothnessFactor2: 32
