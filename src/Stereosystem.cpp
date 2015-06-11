@@ -27,7 +27,6 @@ Stereosystem::~Stereosystem()
   mT.release();
   mE.release();
   mF.release();
-
   mMap1[0].release();
   mMap2[1].release();
   mR0.release();
@@ -43,12 +42,70 @@ Stereosystem::~Stereosystem()
   LOG(INFO)<< mTag <<"Stereosystem destroyed\n";
 }
 
+// -----------------------------------------------------------------------------
+// --- getter ------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+void Stereosystem::getFundamentalMatrix(cv::Mat &fundamental) const
+ {
+  mF.copyTo(fundamental);
+ }
+
+void Stereosystem::getTranslationMatrix(cv::Mat &translation) const
+{
+  mT.copyTo(translation);
+}
+
+double Stereosystem::getBaseline() const
+{
+  return sqrt(pow(mT.at<double>(0,0),2) + pow(mT.at<double>(1,0),2) + pow(mT.at<double>(2,0),2));
+  // return mT.at<double>(0,0);
+}
+
+cv::Mat Stereosystem::getRotationMatrix() const
+{
+  return mR;
+}
+
+cv::Mat Stereosystem::getQMatrix() const
+{
+  return mQ;
+}
+
+// function to return 'after rectification camera matrices' P0/P1
+std::vector<cv::Mat> Stereosystem::getNewCameraMatrices() const
+{
+  std::vector<cv::Mat> v;
+  v.push_back(mP0);
+  v.push_back(mP1);
+  return v;
+}
+
+// -----------------------------------------------------------------------------
+// --- functions ---------------------------------------------------------------
+// -----------------------------------------------------------------------------
+bool Stereosystem::getImagepair(Stereopair& stereoimagepair)
+{
+  std::vector<char> leftImage;
+  //mLeft->getImage(leftImage);
+  std::vector<char> rightImage;
+  //mRight->getImage(rightImage);
+  //std::future<bool> l = std::async(std::launch::async,&Camera::getImage,mLeft,std::ref(leftImage));
+  //std::future<bool> r = std::async(std::launch::async,&Camera::getImage,mRight,std::ref(rightImage));
+
+  std::thread t1(&Camera::getImage,mLeft,std::ref(leftImage));
+  std::thread t2(&Camera::getImage,mRight,std::ref(rightImage));
+
+  t1.join();
+  t2.join();
+  cv::Mat(mLeft->getImageHeight(),mLeft->getImageWidth(), CV_8UC1, &leftImage[0]).copyTo(stereoimagepair.mLeft);
+  cv::Mat(mRight->getImageHeight(),mRight->getImageWidth(), CV_8UC1, &rightImage[0]).copyTo(stereoimagepair.mRight);
+  return true;
+}
+
 double Stereosystem::calibrate(std::vector<cv::Mat> const& leftImages,
                                std::vector<cv::Mat> const& rightImages,
                                double patternSize, cv::Size chessboardSize)
-
 {
-
   if(leftImages.size() == rightImages.size())
   {
     // calibrate each camera at first to get intrinsics
@@ -69,11 +126,9 @@ double Stereosystem::calibrate(std::vector<cv::Mat> const& leftImages,
     std::vector<cv::Point3f> obj;
 
     // size of calibration patteren squares
-    for(int y=0; y<chessboardSize.height; ++y) {
-      for(int x=0; x<chessboardSize.width; ++x) {
+    for(int y=0; y<chessboardSize.height; ++y)
+      for(int x=0; x<chessboardSize.width; ++x)
         obj.push_back(cv::Point3f((float(x)*patternSize),(float(y)*patternSize),0));
-      }
-    }
 
     for(unsigned int i = 0; i < leftImages.size(); ++i) {
       cv::Mat grayImageLeft;
@@ -118,146 +173,6 @@ double Stereosystem::calibrate(std::vector<cv::Mat> const& leftImages,
   return -1.0;
 }
 
-bool Stereosystem::loadExtrinisic(std::string const& file )
-{
-  cv::FileStorage fs;
-  bool success = fs.open(file, cv::FileStorage::READ);
-
-  if(fs["R"].empty() || fs["T"].empty() || fs["E"].empty() || fs["F"].empty())
-  {
-    LOG(ERROR) << mTag << "Node in " << file << "is empty." <<std::endl;
-      fs.release();
-    return false;
-  }
-
-  if(success)
-  {
-      fs["R"] >> mR;
-      fs["T"] >> mT;
-      fs["E"] >> mE;
-      fs["F"] >> mF;
-      LOG(INFO) << mTag <<"Successfully loaded Extrinsics." << std::endl;
-      fs.release();
-      return true;
-  }
-  else
-  {
-    LOG(ERROR) << mTag << "Unable to open extrinsic file: " << file <<std::endl;
-      fs.release();
-    return false;
-  }
-}
-
-bool Stereosystem::loadIntrinsic(std::string const& file)
-{
-  cv::FileStorage fs;
-  bool success = fs.open(file, cv::FileStorage::READ);
-
-  if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsRight"].empty() || fs["distCoeffsRight"].empty())
-  {
-    LOG(ERROR) << mTag << "Node in " << file << "is empty." << std::endl;
-    fs.release();
-    return false;
-  }
-
-  if(success)
-    {
-      fs["cameraMatrixLeft"] >> mIntrinsicLeft;
-      fs["cameraMatrixRight"] >> mIntrinsicRight;
-      fs["distCoeffsLeft"] >> mDistCoeffsLeft;
-      fs["distCoeffsRight"] >> mDistCoeffsRight;
-      mLeft->setIntrinsic(mIntrinsicLeft);
-      mRight->setIntrinsic(mIntrinsicRight);
-      LOG(INFO) << mTag <<"Successfully loaded Intrinsics." << std::endl;;
-      fs.release();
-      return true;
-   }
-  else
-  {
-    LOG(ERROR) << mTag << "Unable to open intrinsic file: " << file << std::endl;
-      fs.release();
-    return false;
-  }
-}
-
-bool Stereosystem::saveExtrinsic(std::string const& file)
-{
-  cv::FileStorage fs;
-  bool success = fs.open(file, cv::FileStorage::WRITE);
-  if(success)
-  {
-    fs << "R" << mR;
-      fs << "T" << mT;
-      fs << "E" << mE;
-      fs << "F" << mF;
-
-    // if(fs["R"].empty() || fs["T"].empty() || fs["E"].empty() || fs["F"].empty())
-    // {
-   //     LOG(ERROR) << mTag << "Unable to save extrinsic to " << file << ". Empty Node" << std::endl;
-   //     fs.release();
-    //  return false;
-    // }
-      LOG(INFO) << mTag <<"Successfully saved Extrinsics to " << file << std::endl;;
-    fs.release();
-    return true;
-  }
-    else
-    {
-      LOG(ERROR) << mTag <<"Unable to open " << file << " for saving." << std::endl;;
-      fs.release();
-    return false;
-    }
-}
-
-bool Stereosystem::saveIntrinsic(std::string const& file)
-{
-  cv::FileStorage fs;
-  bool success = fs.open(file, cv::FileStorage::WRITE);
-  if(success)
-  {
-    fs << "cameraMatrixLeft" << mIntrinsicLeft;
-    fs << "cameraMatrixRight" << mIntrinsicRight;
-    fs << "distCoeffsLeft" << mDistCoeffsLeft;
-    fs << "distCoeffsRight" << mDistCoeffsRight;
-
-    // if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsLeft"].empty() || fs["distCoeffsRight"].empty())
-   //   {
-   //     LOG(ERROR) << mTag << "Unable to save intrisic to " << file << ". Empty Node" << std::endl;
-   //     fs.release();
-    //  return false;
-   //   }
-      LOG(INFO) << mTag <<"Successfully saved Intrinsics to " << file << std::endl;
-      fs.release();
-    return true;
-  }
-  else
-  {
-    LOG(ERROR) << mTag <<"Unable to open " << file << " for saving." << std::endl;;
-      fs.release();
-    return false;
-  }
-
-}
-
-bool Stereosystem::getImagepair(Stereopair& stereoimagepair)
-{
-  std::vector<char> leftImage;
-  //mLeft->getImage(leftImage);
-  std::vector<char> rightImage;
-  //mRight->getImage(rightImage);
-  //std::future<bool> l = std::async(std::launch::async,&Camera::getImage,mLeft,std::ref(leftImage));
-  //std::future<bool> r = std::async(std::launch::async,&Camera::getImage,mRight,std::ref(rightImage));
-
-  std::thread t1(&Camera::getImage,mLeft,std::ref(leftImage));
-  std::thread t2(&Camera::getImage,mRight,std::ref(rightImage));
-
-  t1.join();
-  t2.join();
-  cv::Mat(mLeft->getImageHeight(),mLeft->getImageWidth(), CV_8UC1, &leftImage[0]).copyTo(stereoimagepair.mLeft);
-  cv::Mat(mRight->getImageHeight(),mRight->getImageWidth(), CV_8UC1, &rightImage[0]).copyTo(stereoimagepair.mRight);
-  return true;
-}
-
 bool Stereosystem::getUndistortedImagepair(Stereopair& sip)
 {
   cv::Mat tmpLeft, tmpRight;
@@ -274,7 +189,7 @@ bool Stereosystem::getUndistortedImagepair(Stereopair& sip)
 
 bool Stereosystem::initRectification()
 {
-  LOG(INFO) << mTag << "Called initRectification()" << std::endl;
+  LOG(INFO) << mTag << "Called initRectifiaction()" << std::endl;
 
   cv::Size imagesizeL(mLeft->getImageWidth(), mLeft->getImageHeight());
   cv::Size imagesizeR(mRight->getImageWidth(), mRight->getImageHeight());
@@ -298,13 +213,12 @@ bool Stereosystem::initRectification()
     cv::initUndistortRectifyMap(mIntrinsicRight, mDistCoeffsRight, mR1, mP1,
                                 imagesizeL, CV_32FC1, mMap1[1], mMap2[1]);
 
-
-    // just get the image contained by both ROIs
+    // just get the image conained by both ROIs
     mDisplayROI = mValidROI[0] & mValidROI[1];
-
-    LOG(INFO) << mTag << "Q Matrix: " << mQ << std::endl;
-    LOG(INFO) << mTag << "ROI 1: " << mValidROI[0] << " | ROI 2: " << mValidROI[1] << std::endl;
-    LOG(INFO) << mTag << "Current Display ROI: " << mDisplayROI << std::endl;
+    std::cout<<"SYSTEM: "<<mQ<<std::endl;
+    std::cout << "ROI 1: " << mValidROI[0] << std::endl;
+    std::cout << "ROI 2: " << mValidROI[1] << std::endl;
+    std::cout << mDisplayROI << std::endl;
 
     LOG(INFO) << mTag << "Rectification successfully initialized! "<< mDisplayROI <<std::endl;
     mIsInit = true;
@@ -365,37 +279,127 @@ bool Stereosystem::getRectifiedImagepair(Stereopair& sip)
   mIsInit = false;
  }
 
- void Stereosystem::getFundamentalMatrix(cv::Mat &fundamental) const
- {
-  mF.copyTo(fundamental);
- }
 
- void Stereosystem::getTranslationMatrix(cv::Mat &translation) const
- {
-  mT.copyTo(translation);
- }
-
- double Stereosystem::getBaseline() const
- {
-  return sqrt(pow(mT.at<double>(0,0),2) + pow(mT.at<double>(1,0),2) + pow(mT.at<double>(2,0),2));
-  // return mT.at<double>(0,0);
- }
-
- cv::Mat Stereosystem::getRotationMatrix() const
- {
-  return mR;
- }
-
-cv::Mat Stereosystem::getQMatrix() const
+// -----------------------------------------------------------------------------
+// --- load / save funcions ----------------------------------------------------
+// -----------------------------------------------------------------------------
+bool Stereosystem::loadExtrinisic(std::string const& file )
 {
-  return mQ;
+  cv::FileStorage fs;
+  bool success = fs.open(file, cv::FileStorage::READ);
+
+  if(fs["R"].empty() || fs["T"].empty() || fs["E"].empty() || fs["F"].empty())
+  {
+    LOG(ERROR) << mTag << "Node in " << file << "is empty." <<std::endl;
+    fs.release();
+    return false;
+  }
+
+  if(success)
+  {
+    fs["R"] >> mR;
+    fs["T"] >> mT;
+    fs["E"] >> mE;
+    fs["F"] >> mF;
+    LOG(INFO) << mTag <<"Successfully loaded Extrinsics." << std::endl;
+    fs.release();
+    return true;
+  }
+  else
+  {
+    LOG(ERROR) << mTag << "Unable to open extrinsic file: " << file <<std::endl;
+    fs.release();
+    return false;
+  }
 }
 
-// function to return 'after rectification camera matrices' P0/P1
-std::vector<cv::Mat> Stereosystem::getNewCameraMatrices() const
+bool Stereosystem::loadIntrinsic(std::string const& file)
 {
-  std::vector<cv::Mat> v;
-  v.push_back(mP0);
-  v.push_back(mP1);
-  return v;
+  cv::FileStorage fs;
+  bool success = fs.open(file, cv::FileStorage::READ);
+
+  if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsRight"].empty() || fs["distCoeffsRight"].empty())
+  {
+    LOG(ERROR) << mTag << "Node in " << file << "is empty." << std::endl;
+    fs.release();
+    return false;
+  }
+
+  if(success)
+  {
+    fs["cameraMatrixLeft"] >> mIntrinsicLeft;
+    fs["cameraMatrixRight"] >> mIntrinsicRight;
+    fs["distCoeffsLeft"] >> mDistCoeffsLeft;
+    fs["distCoeffsRight"] >> mDistCoeffsRight;
+    mLeft->setIntrinsic(mIntrinsicLeft);
+    mRight->setIntrinsic(mIntrinsicRight);
+    LOG(INFO) << mTag <<"Successfully loaded Intrinsics." << std::endl;;
+    fs.release();
+    return true;
+  }
+  else
+  {
+    LOG(ERROR) << mTag << "Unable to open intrinsic file: " << file << std::endl;
+    fs.release();
+    return false;
+  }
+}
+
+bool Stereosystem::saveExtrinsic(std::string const& file)
+{
+  cv::FileStorage fs;
+  bool success = fs.open(file, cv::FileStorage::WRITE);
+  if(success)
+  {
+    fs << "R" << mR;
+    fs << "T" << mT;
+    fs << "E" << mE;
+    fs << "F" << mF;
+
+    // if(fs["R"].empty() || fs["T"].empty() || fs["E"].empty() || fs["F"].empty())
+    // {
+    //     LOG(ERROR) << mTag << "Unable to save extrinsic to " << file << ". Empty Node" << std::endl;
+    //     fs.release();
+    //  return false;
+    // }
+    
+    LOG(INFO) << mTag <<"Successfully saved Extrinsics to " << file << std::endl;;
+    fs.release();
+    return true;
+  }
+    else
+    {
+      LOG(ERROR) << mTag <<"Unable to open " << file << " for saving." << std::endl;;
+      fs.release();
+      return false;
+    }
+}
+
+bool Stereosystem::saveIntrinsic(std::string const& file)
+{
+  cv::FileStorage fs;
+  bool success = fs.open(file, cv::FileStorage::WRITE);
+  if(success)
+  {
+    fs << "cameraMatrixLeft" << mIntrinsicLeft;
+      fs << "cameraMatrixRight" << mIntrinsicRight;
+      fs << "distCoeffsLeft" << mDistCoeffsLeft;
+      fs << "distCoeffsRight" << mDistCoeffsRight;
+
+    // if(fs["cameraMatrixLeft"].empty() || fs["cameraMatrixRight"].empty() || fs["distCoeffsLeft"].empty() || fs["distCoeffsRight"].empty())
+   //   {
+   //     LOG(ERROR) << mTag << "Unable to save intrisic to " << file << ". Empty Node" << std::endl;
+   //     fs.release();
+    //  return false;
+   //   }
+      LOG(INFO) << mTag <<"Successfully saved Intrinsics to " << file << std::endl;
+      fs.release();
+    return true;
+  }
+  else
+  {
+    LOG(ERROR) << mTag <<"Unable to open " << file << " for saving." << std::endl;;
+      fs.release();
+    return false;
+  }
 }

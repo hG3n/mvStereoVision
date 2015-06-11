@@ -3,6 +3,9 @@
 std::string mTag = "UTILITY\t";
 
 
+// -----------------------------------------------------------------------------
+// --- streopair ---------------------------------------------------------------
+// -----------------------------------------------------------------------------
 Stereopair::Stereopair():
   mLeft(),
   mRight(),
@@ -10,8 +13,8 @@ Stereopair::Stereopair():
 {}
 
 Stereopair::Stereopair(cv::Mat &l , cv::Mat &r):
-	mLeft(l),
-	mRight(r),
+  mLeft(l),
+  mRight(r),
   mTag("STEREOPAIR\t")
 
 {}
@@ -23,6 +26,9 @@ Stereopair::~Stereopair()
 }
 
 
+// -----------------------------------------------------------------------------
+// --- utility - directory -----------------------------------------------------
+// -----------------------------------------------------------------------------
 int Utility::getFiles (std::string const& dir, std::vector<std::string> &files)
 {
   DIR *dp;
@@ -54,12 +60,12 @@ int Utility::getFiles (std::string const& dir, std::vector<std::string> &files)
 
 bool Utility::directoryExist(std::string const& dirPath)
 {
-	struct stat st = {0};
-	if(stat(dirPath.c_str(),&st) == 0)
-	{
-		return true;
-	}
-	return false;
+  struct stat st = {0};
+  if(stat(dirPath.c_str(),&st) == 0)
+  {
+    return true;
+  }
+  return false;
 }
 
 bool Utility::createDirectory(std::string const& dirPath)
@@ -71,16 +77,21 @@ bool Utility::createDirectory(std::string const& dirPath)
     return false;
 }
 
+
+// -----------------------------------------------------------------------------
+// --- utility - init Cameras --------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Utility::initCameras(mvIMPACT::acquire::DeviceManager &devMgr, Camera *&left, Camera *&right)
 {
   const unsigned int devCnt = devMgr.deviceCount();
 
   if(devCnt != 2)
   {
-    LOG(ERROR)<< mTag <<"Invalid number of cameras detected! Number of detected cameras: " <<\
+    LOG(ERROR)<< mTag <<"Invalid numver of cameras detected! Number of detected cameras: " <<\
     devCnt << std::endl;
     return false;
   }
+
 
   if(devMgr[0]->serial.read() == "26803878")
   {
@@ -101,7 +112,7 @@ bool Utility::initCameras(mvIMPACT::acquire::DeviceManager &devMgr, Camera *&lef
   {
     if(devMgr[1]->serial.read() == "26803878")
     {
-      LOG(INFO)<< mTag << "Successfully initialized both camers" <<std::endl;
+      LOG(INFO)<< mTag << "Successfully initilized both camers" <<std::endl;
 
       left = new Camera(devMgr[1]);
       right = new Camera(devMgr[0]);
@@ -115,6 +126,9 @@ bool Utility::initCameras(mvIMPACT::acquire::DeviceManager &devMgr, Camera *&lef
 }
 
 
+// -----------------------------------------------------------------------------
+// --- utility - config --------------------------------------------------------
+// -----------------------------------------------------------------------------
 bool Utility::checkConfig(std::string const& configfile, std::vector<std::string> const& nodes, cv::FileStorage &fs)
 {
   bool success = fs.open(configfile, cv::FileStorage::READ);
@@ -142,30 +156,47 @@ bool Utility::checkConfig(std::string const& configfile, std::vector<std::string
   }
 }
 
+
+// -----------------------------------------------------------------------------
+// --- utility - helper --------------------------------------------------------
+// -----------------------------------------------------------------------------
+double Utility::checkSharpness(cv::Mat const& src)
+{
+  cv::Mat M = (cv::Mat_<double>(3, 1) << -1, 2, -1);
+  cv::Mat G = cv::getGaussianKernel(3, -1, CV_64F);
+ 
+  cv::Mat Lx, Ly;
+  cv::sepFilter2D(src, Lx, CV_64F, M, G);
+  cv::sepFilter2D(src, Ly, CV_64F, G, M);
+
+  cv::Mat FM = cv::abs(Lx) + cv::abs(Ly);
+  return cv::mean(FM).val[0];
+}
+
 bool Utility::calcCoordinate(cv::Mat_<float> &toReturn,cv::Mat const& Q, cv::Mat const& disparityMap,int x,int y, int binning)
 {
-    double d = static_cast<float>(disparityMap.at<short>(y,x));
+  double d = static_cast<float>(disparityMap.at<short>(y,x));
 
-    d/=16.0;
-    if(d > 0)
-    {
-      toReturn(0)=x;
-      toReturn(1)=y;
-      toReturn(2)=d;
-      toReturn(3)=1;
+  d/=16.0;
+  if(d > 0)
+  {
+    toReturn(0)=x;
+    toReturn(1)=y;
+    toReturn(2)=d;
+    toReturn(3)=1;
 
-      toReturn = Q*toReturn.t();
-      toReturn/=toReturn(3);
-      
-      if(binning == 1)
-        toReturn=toReturn/2;
+    toReturn = Q*toReturn.t();
+    toReturn/=toReturn(3);
+    
+    if(binning == 1)
+      toReturn=toReturn/2;
 
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 float Utility::calcDistance(cv::Mat const& Q, float const& dispValue, int binning)
@@ -205,19 +236,6 @@ float Utility::calcDistance(cv::Mat const& Q, float const& dispValue, int binnin
     else
       return distance/2;
   }
-}
-
-double Utility::checkSharpness(cv::Mat const& src)
-{
-  cv::Mat M = (cv::Mat_<double>(3, 1) << -1, 2, -1);
-  cv::Mat G = cv::getGaussianKernel(3, -1, CV_64F);
- 
-  cv::Mat Lx, Ly;
-  cv::sepFilter2D(src, Lx, CV_64F, M, G);
-  cv::sepFilter2D(src, Ly, CV_64F, G, M);
-
-  cv::Mat FM = cv::abs(Lx) + cv::abs(Ly);
-  return cv::mean(FM).val[0];
 }
 
 void Utility::calcDistanceMap(cv::Mat &distanceMap, cv::Mat const& dMap, cv::Mat const& Q, int binning)

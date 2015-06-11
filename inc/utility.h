@@ -29,42 +29,40 @@
 
 struct Stereopair
 {
-	Stereopair();
-	Stereopair(cv::Mat &, cv::Mat &);
-	~Stereopair();
+  Stereopair();
+  Stereopair(cv::Mat &, cv::Mat &);
+  ~Stereopair();
 
-	cv::Mat mLeft;
-	cv::Mat mRight;
-	std::string mTag;
+  cv::Mat mLeft;
+  cv::Mat mRight;
+  std::string mTag;
 };
 
 struct CameraInit
 {
-	Camera* left;
-	Camera* right;
-	bool init;
+  Camera* left;
+  Camera* right;
+  bool init;
 };
 
 namespace Utility
 {
-	int getFiles (std::string const& dir, std::vector<std::string> &files);
-	bool directoryExist(std::string const& dirPath);
-	bool createDirectory(std::string const& dirPath);
+  int getFiles (std::string const& dir, std::vector<std::string> &files);
+  bool directoryExist(std::string const& dirPath);
+  bool createDirectory(std::string const& dirPath);
 
-	bool initCameras(mvIMPACT::acquire::DeviceManager&,Camera*&,Camera*&);
+  bool initCameras(mvIMPACT::acquire::DeviceManager&,Camera*&,Camera*&);
 
-	bool checkConfig(std::string const&,std::vector<std::string> const&, cv::FileStorage &);
+  bool checkConfig(std::string const&,std::vector<std::string> const&, cv::FileStorage &);
 
-	double checkSharpness(cv::Mat const&);
-	bool covariance(cv::Mat const&, cv::Mat const&, cv::Scalar&);
-	bool standartDeviation(cv::Mat const&, cv::Scalar&);
-	bool normalizedCrossCorrelation(Stereopair const&, cv::Mat&);
+  double checkSharpness(cv::Mat const&);
+  
+  bool  calcCoordinate(cv::Mat_<float> &,cv::Mat const&, cv::Mat const&,int,int,int);
 
-	bool calcCoordinate(cv::Mat_<float> &,cv::Mat const&, cv::Mat const&,int,int,int);
-	float calcDistance(cv::Mat const&, float const&,int);
-	void calcDistanceMap(cv::Mat &, cv::Mat const&, cv::Mat const&,int);
+  float calcDistance(cv::Mat const&, float const&,int);
+  void  calcDistanceMap(cv::Mat &, cv::Mat const&, cv::Mat const&,int);
 
-  float calcMeanDisparity(cv::Mat const&);
+  float                  calcMeanDisparity(cv::Mat const&);
   std::pair<float,float> calcMinMaxDisparity(cv::Mat const&);
 
 }

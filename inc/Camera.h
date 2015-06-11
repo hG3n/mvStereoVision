@@ -23,6 +23,7 @@
 #define AUTO_EXPOSURE_OFF 0
 #define AUTO_EXPOSURE 1
 
+
 class Camera
 {
   public:
@@ -30,18 +31,6 @@ class Camera
     Camera();
     Camera(mvIMPACT::acquire::Device*);
     ~Camera();
-
-    //Functions
-    bool        getImage(std::vector<char>&);
-    double      calibrate(std::vector<cv::Mat> const&, double, cv::Size);
-
-    //Setter
-    void        setExposureMode(unsigned int);
-    void        setExposure(unsigned int);
-    void        setGain(float);
-    void        setPixelFormat(int);
-    void        setBinning(unsigned int);
-    void        setIntrinsic(cv::Mat);
 
     //Getter
     float         getFramerate()    const;
@@ -53,6 +42,17 @@ class Camera
     cv::Mat       getIntrinsic()    const;
     cv::Mat       getDistCoeffs()   const;
 
+    //Setter
+    void setExposureMode(unsigned int);
+    void setExposure(unsigned int);
+    void setGain(float);
+    void setPixelFormat(int);
+    void setBinning(unsigned int);
+    void setIntrinsic(cv::Mat);
+
+    //Functions
+    bool        getImage(std::vector<char>&);
+    double      calibrate(std::vector<cv::Mat> const&, double, cv::Size);
 
   private:
     //Camera settings
@@ -74,6 +74,7 @@ class Camera
     unsigned int                mHeight;
     int                         mBinningMode;
 
+    // intrinsics of a camera
     cv::Mat mIntrinsic;
     cv::Mat mDistCoeffs;
 };

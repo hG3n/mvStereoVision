@@ -11,7 +11,7 @@
 
 namespace Disparity
 {
-	void sgbm(Stereopair const&, cv::Mat&, cv::StereoSGBM);
+  void sgbm(Stereopair const&, cv::Mat&, cv::StereoSGBM);
   void bm(Stereopair const&, cv::Mat& , cv::StereoBM);
   void calcDisparityMap(cv::Mat &);
   void tm(Stereopair const&, cv::Mat& ,unsigned int);
