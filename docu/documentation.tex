@@ -40,8 +40,10 @@ In this section we will give a rough introduction on how one can generate depth 
 	\item similarity measurement
 	\item 3D-coordinate calculation
 \end{itemize}
-\subsubsection{Image Preprocessing} %TODO un/distortete/rectified Bilder aufnehmen
-The preprocessing step is done on two levels; one is the single camera and the second is the stereo system. Each image has some distortions due to the camera's lens. This distortions need to be corrected for the further steps. With the help of a calibration pattern we can calibrate the cameras. This will detect and correct distortions. The process is called \emph{undistortion}. 
+\subsubsection{Image Preprocessing}
+The preprocessing step is done on two levels; one is the single camera (\emph{undistortion}) and the second is the stereo system (\emph{rectification}).
+
+Each image has some distortions due to the camera's lens. This distortions need to be corrected for the further steps. With the help of a calibration pattern we can calibrate the cameras. This will detect and correct distortions. The process is called \emph{undistortion}. 
 
 \begin{figure}[H]
         \centering
@@ -69,11 +71,11 @@ The preprocessing step is done on two levels; one is the single camera and the s
         \caption{Camera calibration corrects distortions}\label{fig:undistortion}
 \end{figure}
 
-In Figure \ref{fig:undistortion} the result of the camera calibration is illustrated. It is obvious that the checkerboard edges are curved and the junctions do not have right angles. After the calibration everything is straight and correct. At the same time it is visible that some information is lost during the calibration, which is due to "unwarping" the image.
+In Figure \ref{fig:undistortion} the result of the camera calibration is illustrated. It is obvious that the checkerboard edges are curved and the junctions do not have right angles. After the calibration everything is straight and correct. At the same time, it is visible at the edges of the corrected images that some information is lost during the calibration. This is due to "unwarping" the image.
 
 \bigskip
 
-During the process of depth map estimation we are going to take features in the left image and search them in the right image. But since this is a 2D search domain ($x$ and $y$ direction) it would be nice to ensure that the searched feature in the right image is at least in the same row as in the left image. This is done via \emph{rectification}. After the rectification step, we can assume that the camera images have no horizontal shift anymore. This reduces the feature search problem to a one dimensional (horizontal) search problem. Furthermore, under the precondition that there is only a horizontal shift, the cameras are not turned to each other and both cameras are identical, we can say that a feature from column $x_{Left}$ is at least at the same position in the right image so it holds that $x_{Right}\geq x_{Left}$. This also reduces the search problem, since the closer $x_{Left}$ is to $x_{Max}$ the smaller is the set of elements to search in.
+During the process of depth map estimation we are going to take features in the left image and search them in the right image. But since this is a 2D search domain ($x$ and $y$ direction) it would be nice to ensure that the searched feature in the right image is at least in the same row as in the left image. This is done via the second step, the \emph{rectification}. After the rectification step, we can assume that the camera images have no vertical shift anymore. This reduces the feature search problem to a one dimensional (horizontal) search problem. Furthermore, under the precondition that there is only a horizontal shift, the cameras are not turned to each other and both cameras are identical, we can say that a feature from column $x_{Left}$ is at least at the same position in the right image so it holds that $x_{Right}\geq x_{Left}$. This also reduces the search problem, since the closer $x_{Left}$ is to $x_{Max}$ the smaller is the set of elements to search in.
 
 \paragraph{Epipolar geometry} We will explain the outcome of the rectification with the help of the epipolar geometry. Each 3D object point is mapped into the 2D image of both cameras. The object point $O$ defines an image point $P(x_l,y_l)$ in the left image. The question is now, where is the corresponding point in the right image? To find the corresponding point one would have to search the epipolar line of that image point in the right image. This line is determined by the projection of the line $O$--$P(x_l,y_l)$ on the image plane of the right image. But this would mean that we would have to calculate the epipolar line for each pixel and search along this line for the corresponding point. The rectification simplifies the search such that the image planes are "corrected" in such a way that all epipolar lines are parallel and horizontal. This ensures that the corresponding point is on the same row as the source point. The process is illustrated in figure \ref{fig:epipolar}
  
@@ -110,11 +112,11 @@ The search problem is shown in figure \ref{fig:rectification}. The red lines con
 \end{figure}
 
 \subsubsection{Similarity Measure}
-At this step we assume that we have undistorted and rectified images. Now we compare the left and right images. If the horizontal shift of an object from the left to the right image is large, the object is near the cameras. If the horizontal shift moves towards zero, the object is far away from the origin (the cameras).
+At this step we assume that we have undistorted and rectified images. Now we compare the left and right images. If the horizontal shift of an object from the left to the right image is large, the object is near the cameras. If the horizontal shift moves towards zero, the object is far away from the origin (of the cameras).
 
-But how can one determine the horizontal shift of an object? There exist plenty of possibilities to do this. We tried three different approaches: template matching with different similarity measures, block matching and semi-global block matching. The result of each is a map with integer values. The map has the same size as the two images and contains for each pixel $p(x,y)$ a value (the disparity) which expresses the horizontal shift in pixels from the left to the right image. In our framework we use the semi-global block matching (SGBM) since it has the best tradeoff between time and accuracy. The block matching mechanism is a little bit faster but very noisy at the moment. The template matching strategy takes far to long to evaluate a single picture pair. 
+But how can one determine the horizontal shift of an object? There exist plenty of possibilities to do this. We tried three different approaches: template matching with different similarity measures, block matching and semi-global block matching. The result of each is a map with integer values. The map has the same size as the two images and contains for each pixel $p(x,y)$ a value (the disparity) which expresses the horizontal shift in pixels from the left to the right image. In our framework we use the semi-global block matching (SGBM) since it has the best trade off between computational time and accuracy. The block matching mechanism is a little bit faster but very noisy at the moment. The template matching strategy takes far to long to evaluate a single picture pair. 
 
-The SGBM tries to minimize a global energy function through different paths to the current pixel/block. Therefore different parameters has to be passed to the algorithm. Please have a look on \cite{hirschmuller2005accurate} and \cite{hirschmuller2008stereo} for further reading on the semi global matching. The SGBM extends the explained semi-global matching to a faster semi-global block matching. The SGBM is implemented in the OpenCV framework.
+The SGBM tries to minimize a global energy function through different paths to the current pixel/block. Therefore different parameters have to be passed to the algorithm. Please have a look on \cite{hirschmuller2005accurate} and \cite{hirschmuller2008stereo} for further reading on the semi global matching. The SGBM extends the explained semi-global matching to a faster semi-global block matching. The SGBM is implemented in the OpenCV framework.
 
 Furthermore the SGBM guarantees smooth disparity maps with closed shapes (depending on the parameters passed). Figure \ref{fig:ex1_sgbm} shows the input and the result of the SGBM disparity calculation.
 
@@ -140,7 +142,7 @@ Furthermore the SGBM guarantees smooth disparity maps with closed shapes (depend
 \end{figure}
 
 \subsubsection{3D-Coordinate Calculation}
-The last step is the reprojection from the image plane to the real world. We therefore use the reprojection matrix $Q$, which is constructed as follows:
+The last step is the reprojection from the image plane to the real world, alson known as \emph{triangulation}. We therefore use the reprojection matrix $Q$, which is constructed as follows:
 
 \begin{figure}[H]
 \centering
@@ -177,7 +179,7 @@ This can be done with every pixel $(x,y)$ which has a valid disparity value $d$.
 \bigskip This three steps form the rough pipe line to generate depth maps from stereo camera systems. In the further sections we will explain the developed framework.
 
 \subsection{Hardware and Dependencies}\label{sec:hardware}
-The AscTec Pelican is equipped with two  \emph{\href{http://www.matrix-vision.com/USB2.0-single-board-camera-mvbluefox-mlc.html?camera=mvBlueFOX-MLC200wC&selectInterface=Alle&selectMpixels=Alle&selectFps=Alle&selectSensor=Alle&selectColor=Alle&selectSize=Alle&selectShutter=Alle&selectModel=Alle&col=1&row=0}{mvBlueFOX -- MLC 200w}} cameras from \emph{\href{http://www.matrix-vision.com/home-en.html}{Matrix Vision}}. To use the cameras one need to download and install the \href{http://www.matrix-vision.com/programming-interface-mvimpact-acquire.html}{mvIMPACT Acquire SDK}. This SDK comes with the required drivers and a API for several programming languages such as C/C++, C\# etc. 
+The AscTec Pelican is equipped with two  \emph{\href{http://www.matrix-vision.com/USB2.0-single-board-camera-mvbluefox-mlc.html?camera=mvBlueFOX-MLC200wC&selectInterface=Alle&selectMpixels=Alle&selectFps=Alle&selectSensor=Alle&selectColor=Alle&selectSize=Alle&selectShutter=Alle&selectModel=Alle&col=1&row=0}{mvBlueFOX -- MLC 200w}} cameras from \emph{\href{http://www.matrix-vision.com/home-en.html}{Matrix Vision}}. To use the cameras one need to download and install the \href{http://www.matrix-vision.com/programming-interface-mvimpact-acquire.html}{mvIMPACT Acquire SDK}. This SDK comes with the required drivers and a API for several programming languages such as C/C++ and C\#. 
 
 The system uses the SDK just for image acquisition, either in full resolution (752x480) or in binning mode with half resolution (376x240).
 
@@ -201,12 +203,12 @@ The images from the left and right cameras are then passed into the \texttt{Ster
 
 The \texttt{Stereosystem} class offers functions to calibrate the cameras with a given set of calibration images, save and load former calibration parameter and return different types of image pairs, namely distorted, undistorted and rectified image pairs.
 
-We use the OpenCV function \texttt{calibrateCamera} to get the so called  \emph{intrinsic parameters}, which are the \emph{camera matrix} and the \emph{distortion coefficients}. The camera matrix $A$ contains the focal length and the principal point. 
+We use the OpenCV function \texttt{calibrateCamera} to get the so called  \emph{intrinsic parameters}, which are the \emph{camera matrix} and the \emph{distortion coefficients}. The camera matrix $A$ contains the focal lengths ($f_x$$f_y$, the skew factor $s$ and the principal point. But since the OpenCV framework ignores the skew factor $s$, it can be considered to be zero.
 
 \begin{align*}
 A=
 \begin{pmatrix}
-f_x & 0 & c_x\\
+f_x & s & c_x\\
 0 & f_y & c_y\\
 0 & 0 & 1
 \end{pmatrix}
@@ -218,7 +220,7 @@ The framework searches for some object points  in some calibration images which 
 The calibration function returns the root mean square re-projection error (RMS). For a good calibration it should be between 0.1 and 0.5 pixel. With the Matrix Vision cameras and the wooden calibration object we expect the RMS to be less then 0.2. We made the experience that 10 to 15 images are sufficient for a good calibration. Fewer or more images could downgrade the calibration result. 
 
 
-For the stereo setup the intrinsic parameters are not enough. We need further information about placement and orientation of the cameras to each other for correct rectification. This information is called \emph{extrinsic parameters}. The extrinsic parameters describe the translation and rotation of the right camera to the left camera. By the way, we always assume the left camera to be the reference system. With the help of the OpenCV function \texttt{stereoCalibrate} we can determine the extrinsic parameters ([R]otation matrix and [T]ranslation matrix), the [F]undamental and [E]ssential matrix.
+For the stereo setup the intrinsic parameters are not enough. We need further information about placement and orientation of the cameras to each other for correct rectification. This information is called \emph{extrinsic parameters}. The extrinsic parameters describe the translation and rotation of the right camera to the left camera. By the way, we always assume the left camera to be the reference system with regard to the right camera. With the help of the OpenCV function \texttt{stereoCalibrate} we can determine the extrinsic parameters ([R]otation matrix and [T]ranslation matrix), the [F]undamental and [E]ssential matrix.
 
 Both together, the intrinsic and extrinsic parameters, are then passed to the \texttt{stereoRectify} function to get the rectified images.%TODO rectified image (with uncropped border)
 
@@ -247,7 +249,7 @@ The laser distance meter was aligned beyond the left camera sensor. Using this s
 
 These tests will be explained and evaluated in the following sections. During the tests we saw the camera images, the disparity map an the calculated distance for a point inside the disparity map. We were able to adjust the exposure time and the number of disparity parameter to match the given environmental characteristics.
 
-The testing contains out of two steel plates where each one holds either the cameras or the Disto. They are conntected to the plates using switchable magnets and laboratory stands. The following figures will show a front [Figure \ref{fig:setup-front}] and a side [Figure \ref{fig:setup-side}] view.
+The testing consists of two steel plates where each one holds either the cameras or the Disto. They are conntected to the plates using switchable magnets and laboratory stands. The following figures will show a front [Figure \ref{fig:setup-front}] and a side [Figure \ref{fig:setup-side}] view.
 
 \begin{figure}[p]
 	\begin{subfigure}[h]{\textwidth}
@@ -269,13 +271,13 @@ The testing contains out of two steel plates where each one holds either the cam
 \pagebreak
 
 \subsection{Absolute measurements}
-For the absolute measurements we placed obstacles in the room starting from 8.4 meters in 0.6m steps. The values can be seen within the following Table [Table \ref{table:absolute-table}] as well as in the resulting bar chart [Figure \ref{fig:absolute-chart}]:
+For the absolute measurements we placed obstacles in the room starting from 8.4 meters in 0.6 m steps. The values can be seen within the following Table \ref{table:absolute-table} as well as in the resulting bar chart Figure \ref{fig:absolute-chart}:
 
 \begin{table}[htbp]
 	\begin{center}
 	\begin{tabular}{|r|r|c|}
 	\hline
-	\multicolumn{1}{|l|}{Disparity} & \multicolumn{1}{l|}{Laser} & \multicolumn{1}{l|}{$Laser - Disparity$} \\ \hline
+	\multicolumn{1}{|l|}{Disparity in [m]} & \multicolumn{1}{l|}{Laser in [m]} & \multicolumn{1}{l|}{Laser - Disparity in [m]} \\ \hline
 	8.57 & 8.40 & -0.17 \\ \hline
 	7.86 & 7.79 & -0.07 \\ \hline
 	7.07 & 7.19 & 0.12 \\ \hline
@@ -292,7 +294,7 @@ For the absolute measurements we placed obstacles in the room starting from 8.4 
 	0.58 & 0.59 & 0.01 \\ \hline
 	\end{tabular}
 	\end{center}
-	\caption{Measurement Values for absolute tests.}
+	\caption{Measurement values for absolute tests.}
 	\label{table:absolute-table}
 \end{table}
 
@@ -303,15 +305,15 @@ For the absolute measurements we placed obstacles in the room starting from 8.4 
         \label{fig:absolute-chart}
 \end{figure}
 
-At a first glance some of the differences seem to be very high and completely in contrast to a good measurement. Luckily these are just outliers and the mean difference as well as the minimum and maximum values can be observed in Table 4 [Table \ref{table:absolute-results}].
+At a first glance some of the differences seem to be very high and completely in contrast to a good measurement. Luckily these are just outliers and the mean difference as well as the minimum and maximum values can be observed in Table \ref{table:absolute-results}.
 
 \begin{table}[htbp]
 	\begin{center}
 	\begin{tabular}{|l|r|}
 	\hline
-	Minimum & 0.01 \\ \hline
-	Maximum & 0.13 \\ \hline
-	Mean & 0.03\\ \hline
+	Minimum & 0.01 m \\ \hline
+	Maximum & 0.13 m \\ \hline
+	Mean & 0.03 m\\ \hline
 	\end{tabular}
 	\end{center}
 	\caption{Min, max and mean differences of the dataset.}
@@ -319,13 +321,13 @@ At a first glance some of the differences seem to be very high and completely in
 \end{table}
 
 \subsection{Relative measurements}
-For the relative test we measured the distance from our system to two different obstacles in different distances to each other. The difference of the two measured distances is our final value. The following chart shows the measurement differences between the disparity values and ones from the Disto [Table \ref{fig:relative-chart}].
+For the relative test we measured the distance from our system to two different obstacles in different distances to each other. The difference in depth of the two measured distances is our final value. The measurement differences between the disparity values and ones from the Disto are visualized in the bar chart in Figure \ref{fig:relative-chart}.
 
 \begin{table}[htbp]
 	\begin{center}
 	\begin{tabular}{|r|r|c|}
 	\hline
-	\multicolumn{1}{|l|}{Disparity} & \multicolumn{1}{l|}{Laser} & \multicolumn{1}{l|}{$Laser - Disparity$} \\ \hline
+	\multicolumn{1}{|l|}{Disparity in [m]} & \multicolumn{1}{l|}{Laser in [m]} & \multicolumn{1}{l|}{Laser - Disparity in [m]} \\ \hline
 	0.58 & 0.59 & 0.006 \\ \hline
 	1.19 & 1.20 & 0.009 \\ \hline
 	1.77 & 1.80 & 0.029 \\ \hline
@@ -336,7 +338,7 @@ For the relative test we measured the distance from our system to two different 
 	4.71 & 4.80 & 0.086 \\ \hline
 	\end{tabular}
 	\end{center}
-	\caption{foo}
+	\caption{Measurement values for relative tests.}
 	\label{table:relative-table}
 \end{table}
 
@@ -347,34 +349,34 @@ For the relative test we measured the distance from our system to two different 
         \label{fig:relative-chart}
 \end{figure}
 
-The following Table [Table \ref{table:relative-results}] shows the outcomes of the relative measurement:
+Table \ref{table:relative-results} shows the outcomes of the relative measurement.
 
 \begin{table}[htbp]
 	\begin{center}
 	\begin{tabular}{|l|r|}
 	\hline
-	Minimum & 0.01 \\ \hline
-	Maximum & 0.09 \\ \hline
-	Mean & 0.04 \\ \hline
+	Minimum & 0.01 m \\ \hline
+	Maximum & 0.09 m\\ \hline
+	Mean & 0.04 m\\ \hline
 	\end{tabular}
 	\end{center}
 	\caption{Min, max and mean differences from the table}
 	\label{table:relative-results}
 \end{table}
 
-Taking a look onto the result values it is quiet clear to see that the disparity map calculated by our system behaves very good in the relative measurements.
+\noindent Taking a look onto the result values it is quiet clear to see that the disparity map calculated by our system behaves very good in the relative measurements.
 
 
 \subsection{Obstacle size measurements}
 In order to measure whether even small objects and their distance could be detected by our system we attached a cardboard circle with a diameter of $5cm$ to a translucent plastic rod. Afterwards we aligned the obstacle in that way, that the laser dot pointed in the middle of the circle. The distances were taken immediately by the Disto and disparity map.
 
-The following Table showes the measured distances as well as the difference between laser and disparity measurements [Table \ref{table:obstacle-size}]. 
+Table \ref{table:obstacle-size} shows the measured distances as well as the difference between laser and disparity measurements. 
 
 \begin{table}[htbp]
 	\begin{center}
 	\begin{tabular}{|r|r|c|}
 	\hline
-	\multicolumn{1}{|l|}{Disparity} & \multicolumn{1}{l|}{Laser} & \multicolumn{1}{l|}{$Laser - Disparity$} \\ \hline
+	\multicolumn{1}{|l|}{Disparity in [m]} & \multicolumn{1}{l|}{Laser in [m]} & \multicolumn{1}{l|}{Laser - Disparity in [m]} \\ \hline
 	1.049578 & 1.06 & 0.01 \\ \hline
 	1.471321 & 1.49 & 0.02 \\ \hline
 	1.908003 & 1.93 & 0.02 \\ \hline
@@ -387,7 +389,7 @@ The following Table showes the measured distances as well as the difference betw
 	\label{table:obstacle-size}
 \end{table}
 \pagebreak
-The chosen distances were random, were the highest distance we could recognize the obstacle was about three meters. Due to the resolution of the disparity map it was impossible to see the obstacle when increasing the distance to more than three meters. Although the obstacle was not visible the distances beyond three meters were within the range the differences described above. According to the fact that the test was about measuring out of the disparity map we ignored these values in our evaluation.
+The chosen distances were random, while the highest distance we could recognize the obstacle was about three meters. Due to the resolution of the disparity map it was impossible to see the obstacle when increasing the distance to more than three meters. Although the obstacle was not visible the distances beyond three meters were within the range the differences described above. According to the fact that the test was about measuring out of the disparity map we ignored these values in our evaluation.
 
 
 Figure \ref{fig:obstacle-chart} visualizes the measured values.
@@ -415,7 +417,7 @@ When taking a closer look to the measuered values it is quiet clear to see that 
 Although these results are quiet promising when looking forward to a future obstacle detection and the accuracy which could be achieved by using our framework.
 
 \subsection{Evaluation discussion}
-While taking a look onto the results of our tests it is quiet clear to see, that the accuracy of our system is fairly high. There are some outliers in the absolute measurement data as well as in the obstacle size data. These can refer to different reasons. One of them is a still known problem when trying to calculate a disparity on homogeneous areas. Because of a lack of texture it is hard to estimate whether the pixels below to each other in the reference image. This could be a reason for high value drifts. Another problem was the missing exposure control (which was implemented after performing the tests). If the exposure is either too high or too low the pixel value is changing. This change could lead to homogeneous areas (where there are no) or an overly sensitive detection of disparity. Also the position of other objects throwing shadows on the main measurement object could be a reason. \\\\
+While taking a look onto the results of our tests it is quiet clear to see, that the accuracy of our system is fairly high. There are some outliers in the absolute measurement data as well as in the obstacle size data. These can refer to different reasons. One of them is a still known problem when trying to calculate a disparity on homogeneous areas. Because of a lack of texture it is hard to estimate whether the pixels belong to each other in the reference image. This could be a reason for high value drifts. Another problem was the missing exposure control (which was implemented after performing the tests). If the exposure is either too high or too low the pixel value is changing. This change could lead to homogeneous areas (where there are no) or an overly sensitive detection of disparity. Also the position of other objects throwing shadows on the main measurement object could be a reason. \\\\
 That was the main reason of doing relative tests. They basically proof the good quality of the calculated disparity maps and the connected estimated distance. Also there was nearly no difference between binned and unbinned mode of image capturing. The estimated Distance was nearly the same, only accuracy when pointing at different areas was lower because of the bisected resolution from $752\times480$ down to $376\times240$.
 
 \section{Discussion}
